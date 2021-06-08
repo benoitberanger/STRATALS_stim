@@ -534,7 +534,7 @@ else % Create the figure
     
     e_Max.x   = 0.10;
     e_Max.w   = 0.80;
-    e_Max.y   = 0.10;
+    e_Max.y   = 0.05;
     e_Max.h   = 0.40;
     e_Max.tag = 'edit_MaxStrength';
     handles.(e_Max.tag) = uicontrol(handles.uipanel_Task    ,...
