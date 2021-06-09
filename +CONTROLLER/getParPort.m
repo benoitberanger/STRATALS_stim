@@ -1,5 +1,4 @@
-function ParPort = getParPort( hObject )
-handles = guidata( hObject );
+function [ ParPort ] = getParPort( handles )
 
 switch get(handles.checkbox_ParPort, 'Value')
     case 1

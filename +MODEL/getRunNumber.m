@@ -1,4 +1,4 @@
-function RunNumber = getRunNumber(DataFile_noRun)
+function [ RunNumber ] = getRunNumber( DataFile_noRun )
 
 % Auto-incrementation of run number
 % -------------------------------------------------------------------------

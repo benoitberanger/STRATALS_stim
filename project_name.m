@@ -1,4 +1,4 @@
-function name = project_name()
+function [ name ] = project_name()
 
 name = 'STRATALS';
 

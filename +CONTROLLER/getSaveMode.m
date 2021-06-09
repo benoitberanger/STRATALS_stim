@@ -1,11 +1,10 @@
-function SaveMode = getSaveMode( hObject )
-handles = guidata( hObject );
+function [ SaveMode ] = getSaveMode( handles )
 
 switch get(get(handles.uipanel_SaveMode,'SelectedObject'),'Tag')
     case 'radiobutton_SaveData'
-        SaveMode = 'On';
+        SaveMode = 1;
     case 'radiobutton_NoSave'
-        SaveMode = 'Off';
+        SaveMode = 0;
     otherwise
         warning('Error in SaveMode selection')
 end

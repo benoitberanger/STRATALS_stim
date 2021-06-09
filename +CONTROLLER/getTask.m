@@ -1,4 +1,4 @@
-function Task = getTask( hObject )
+function [ Task ] = getTask( hObject )
 
 switch get(hObject,'Tag')
     

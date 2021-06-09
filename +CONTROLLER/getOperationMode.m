@@ -1,5 +1,4 @@
-function OperationMode = getOperationMode( hObject )
-handles = guidata( hObject );
+function [ OperationMode ] = getOperationMode( handles )
 
 switch get(get(handles.uipanel_OperationMode,'SelectedObject'),'Tag')
     case 'radiobutton_Acquisition'

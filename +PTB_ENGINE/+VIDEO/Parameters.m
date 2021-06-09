@@ -1,0 +1,11 @@
+function Parameters()
+global S
+
+S.PTB.Video                = struct;
+S.PTB.Video.ScreenBGColor  = [128 128 128]; % [R G B] ( from 0 to 255 )
+S.PTB.Video.AntiAliazing   = 4;             % [], 0, 1, 2, ...
+S.PTB.Video.Text.Font      = 'Arial';
+S.PTB.Video.Text.Color     = [255 255 255]; % [R G B] ( from 0 to 255 )
+S.PTB.Video.Text.SizeRatio = 0.10;          % Size = Y_total_px * SizeRatio
+
+end % function

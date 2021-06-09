@@ -1,5 +1,4 @@
-function Device = getDevice( hObject )
-handles = guidata( hObject );
+function [ Device ] = getDevice( handles )
 
 switch get(get(handles.uipanel_Device,'SelectedObject'),'Tag')
     case 'radiobutton_nutcracker'
