@@ -168,5 +168,71 @@ end
 EchoStop(Task)
 
 
+%% Save the file on the fly, without any prcessing => just a security
+
+save( fullfile(fileparts(pwd),'data','lastS.mat') , 'S' )
+
+
+%% Stop PTB engine
+
+% Video : comment/uncomment
+sca;
+Priority( 0 );
+
+% Audio : comment/uncomment
+% PsychPortAudio('Close');
+
+
+%% Generate SPM names onset durations
+
+[ names , onsets , durations ] = SPMnod;
+
+
+%% Save
+
+if SaveMode && strcmp(OperationMode,'Acquisition')
+    
+    if ~exist(DataPath, 'dir')
+        mkdir(DataPath);
+    end
+    
+    save( DataFile        , 'S', 'names', 'onsets', 'durations'); % complet file
+    save([DataFile '_SPM']     , 'names', 'onsets', 'durations'); % light weight file with only the onsets for SPM
+    
+end
+
+
+%% Send S and SPM n.o.d. to workspace
+
+assignin('base', 'S'        , S        );
+assignin('base', 'names'    , names    );
+assignin('base', 'onsets'   , onsets   );
+assignin('base', 'durations', durations);
+
+
+%% MAIN : End recording of Eyelink
+
+% Eyelink mode 'On' ?
+if EyelinkMode
+    
+    % Stop recording and retrieve the file
+    Eyelink.StopRecording( S.EyelinkFile )
+    
+end
+
+
+%% Ready for another run
+
+set(handles.text_LastFileNameAnnouncer, 'Visible','on'                             )
+set(handles.text_LastFileName         , 'Visible','on'                             )
+set(handles.text_LastFileName         , 'String' , DataFile(length(DataPath)+1:end))
+
+WaitSecs(0.100);
+pause(0.100);
+fprintf('\n')
+fprintf('~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n')
+fprintf('    Ready for another run    \n')
+fprintf('~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n')
+
 
 end % function
