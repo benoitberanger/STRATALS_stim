@@ -19,5 +19,8 @@ GUI.VIEW.OpenGUI(); % the GUI is the **ONLY** interface the user will interact w
 %
 % Here for the GUI I use the Model-View-Controller architecture : https://en.wikipedia.org/wiki/Model-view-controller
 % The core program is GUI.MODEL.Core(). This is where everything happens.
+% Inside GUI.MODEL.Core(), the program of the task will be called with all the settings comming from the GUI
+% Tasks codes are in +TASK/+<task_name>/Runtime.m, and the settings are in +TASK/+<task_name>/Parameters.m
 %
+
 end % function
