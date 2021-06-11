@@ -13,11 +13,11 @@ check_requirements()
 
 fprintf('Starting (or focussing) GUI... \n');
 
-VIEW.OpenGUI(); % the GUI is the **ONLY** interface the user will interact with
+GUI.VIEW.OpenGUI(); % the GUI is the **ONLY** interface the user will interact with
 
 % NOTES:
 %
 % Here for the GUI I use the Model-View-Controller architecture : https://en.wikipedia.org/wiki/Model-view-controller
-% The core program is MODEL.Core(). This is where everything happens.
+% The core program is GUI.MODEL.Core(). This is where everything happens.
 %
 end % function

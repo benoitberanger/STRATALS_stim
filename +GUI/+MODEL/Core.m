@@ -31,31 +31,31 @@ S.TimeStampFile   = datestr(now, 30                ); % yyyymmddTHHMMSS : to sor
 
 %% Task selection
 
-Task = CONTROLLER.getTask( hObject );
+Task = GUI.CONTROLLER.getTask( hObject );
 S.Task = Task;
 
 
 %% Save mode selection
 
-SaveMode = CONTROLLER.getSaveMode( handles );
+SaveMode = GUI.CONTROLLER.getSaveMode( handles );
 S.SaveMode = SaveMode;
 
 
 %% Device mode selection
 
-Device = CONTROLLER.getDevice( handles );
+Device = GUI.CONTROLLER.getDevice( handles );
 S.Device = Device;
 
 
 %% Mode selection
 
-OperationMode = CONTROLLER.getOperationMode( handles );
+OperationMode = GUI.CONTROLLER.getOperationMode( handles );
 S.OperationMode = OperationMode;
 
 
 %% Subject ID & Run number
 
-[ SubjectID, ~, dirpath_SubjectID ] = CONTROLLER.getSubjectID( handles );
+[ SubjectID, ~, dirpath_SubjectID ] = GUI.CONTROLLER.getSubjectID( handles );
 
 if SaveMode && strcmp(OperationMode,'Acquisition')
     
@@ -67,7 +67,7 @@ end
 
 DataFile_noRun = sprintf('%s_%s', SubjectID, Task );
 
-RunNumber = MODEL.getRunNumber( DataFile_noRun );
+RunNumber = GUI.MODEL.getRunNumber( DataFile_noRun );
 
 DataFile     = sprintf('%s%s_%s_%s_run%0.2d', dirpath_SubjectID, S.TimeStampFile, SubjectID, Task, RunNumber );
 DataFileName = sprintf(  '%s_%s_%s_run%0.2d',                    S.TimeStampFile, SubjectID, Task, RunNumber );
@@ -89,14 +89,14 @@ end
 
 %% Parallel port ?
 
-ParPort = CONTROLLER.getParPort( handles );
+ParPort = GUI.CONTROLLER.getParPort( handles );
 S.ParPort = ParPort;
 S.ParPortMessages = PARPORT.Prepare();
 
 
 %% Eyelink ?
 
-EyelinkMode = CONTROLLER.getEyelinkMode( handles );
+EyelinkMode = GUI.CONTROLLER.getEyelinkMode( handles );
 
 
 if EyelinkMode
@@ -132,8 +132,8 @@ end
 
 %% ScreenID & ScreenMode selection
 
-S.ScreenID     = CONTROLLER.getScreenID    ( handles );
-S.WindowedMode = CONTROLLER.getWindowedMode( handles );
+S.ScreenID     = GUI.CONTROLLER.getScreenID    ( handles );
+S.WindowedMode = GUI.CONTROLLER.getWindowedMode( handles );
 
 
 %% Open PTB window & sound, if need
