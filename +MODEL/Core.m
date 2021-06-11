@@ -106,7 +106,7 @@ if EyelinkMode
     
     % Save mode ?
     assert( SaveMode ,' \n ---> Save mode should be turned ON when using Eyelink <--- \n ')
-        
+    
     % Eyelink connected ?
     Eyelink.IsConnected
     
@@ -126,9 +126,7 @@ end
 % If erasing a file is needed, we need to do it manually
 
 if SaveMode && strcmp(OperationMode,'Acquisition')
-    
     assert( ~exist([DataFile '.mat'],'file'), ' \n ---> \n The file %s.mat already exists .  <--- \n \n', DataFile );
-    
 end
 
 
@@ -144,3 +142,31 @@ S.WindowedMode = CONTROLLER.getWindowedMode( handles );
 PTB_ENGINE.VIDEO.Parameters(); % <= here is all paramters
 PTB_ENGINE.VIDEO.OpenWindow(); % this opens the windows and setup the drawings according the the paramters above
 
+% PTB_ENGINE.AUDIO.         Initialize(); % !!! This must be done once before !!!
+% PTB_ENGINE.AUDIO.PLAYBACK.Parameters(); % <= here is all paramters
+% PTB_ENGINE.AUDIO.PLAYBACK.OpenDevice(); % this opens the playback device (speakers/headphones) and setup according the the paramters above
+% PTB_ENGINE.AUDIO.RECORD  .Parameters(); % <= here is all paramters
+% PTB_ENGINE.AUDIO.RECORD  .OpenDevice(); % this opens the record device (microphone) and setup according the the paramters above
+
+
+%% Everything is read, start Task
+
+EchoStart(Task)
+
+switch Task
+    case 'Calibration'
+        
+    case 'Nutcracker'
+        
+    case 'EyelinkCalibration'
+        Eyelink.Calibration(S.PTB.Video.wPtr);
+        S.TaskData.ER.Data = {};
+    otherwise
+        error('Task ?')
+end
+
+EchoStop(Task)
+
+
+
+end % function

@@ -17,6 +17,7 @@ VIEW.OpenGUI(); % the GUI is the **ONLY** interface the user will interact with
 
 % NOTES:
 %
-% Here I use the Model-View-Controller architecture : https://en.wikipedia.org/wiki/Model-view-controller
-
+% Here for the GUI I use the Model-View-Controller architecture : https://en.wikipedia.org/wiki/Model-view-controller
+% The core program is MODEL.Core(). This is where everything happens.
+%
 end % function

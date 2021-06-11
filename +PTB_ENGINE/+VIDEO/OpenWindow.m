@@ -1,6 +1,7 @@
 function OpenWindow()
 global S
 
+
 %% Echo in command window
 EchoStop(mfilename)
 
@@ -8,7 +9,9 @@ EchoStop(mfilename)
 %% Open
 
 % Use GStreamer : for videos
-% Screen('Preference', 'OverrideMultimediaEngine', 1);
+if S.PTB.Video.GStreamer
+    Screen('Preference', 'OverrideMultimediaEngine', 1);
+end
 
 % PTB opening screen will be empty = black screen
 Screen('Preference', 'VisualDebugLevel', 1);
