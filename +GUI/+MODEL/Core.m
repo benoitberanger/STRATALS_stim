@@ -157,7 +157,8 @@ switch Task
     case 'Calibration'
         
     case 'Nutcracker'
-        
+        TASK.NUTCRACKER.Parameters(); % <= here is all paramters
+        TASK.NUTCRACKER.Runtime   (); % execution of the task
     case 'EyelinkCalibration'
         Eyelink.Calibration(S.PTB.Video.wPtr);
         S.TaskData.ER.Data = {};

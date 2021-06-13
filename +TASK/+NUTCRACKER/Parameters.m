@@ -1,4 +1,4 @@
-function Parameters()
+function [ EP, TaskParam ] = Parameters()
 global S
 
 if nargout < 1 % only to plot the paradigme when we execute the function outside of the main script
@@ -37,6 +37,7 @@ end
 
 
 %% Graphics
+
 
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -100,13 +101,17 @@ if nargout < 1
     fprintf(' \n Total stim duration : %g seconds \n' , NextOnset(EP) )
     fprintf( '\n' )
     
-    EP.Plot
+    EP.Plot();
     
 end
 
 
 %% Save
 
-S.TaskParam = p;
+TaskParam = p;
+
+S.EP        = EP;
+S.TaskParam = TaskParam;
+
 
 end % function
