@@ -14,7 +14,8 @@ try
     
     %% Initialize stim objects
     
-    FIXATIONCROSS = TASK.NUTCRACKER.PREPARE.FixationCross();
+    FIXATIONCROSS               = TASK.NUTCRACKER.PREPARE.FixationCross();
+    [ TargetLEFT, TargetRIGHT ] = TASK.NUTCRACKER.PREPARE.Target       ();
     
     
     %% GO
@@ -27,6 +28,6 @@ catch err
     ShowCursor;
     rethrow(err);
     
-end
+end % try
 
 end % function

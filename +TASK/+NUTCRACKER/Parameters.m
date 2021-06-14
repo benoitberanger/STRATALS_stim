@@ -27,7 +27,7 @@ switch OperationMode
     case 'Acquisition'
     case 'FastDebug'
         p.nBlock          = 1;       % for EACH hand
-        p.durRestBlock    = [2 3]; % [min max] in second, for the jitter
+        p.durRestBlock    = [2 3];   % [min max] in second, for the jitter
         p.nTrialPerBlock  = 2;       % second
     case 'RealisticDebug'
         p.nBlock          = 1;       % for EACH hand
@@ -42,6 +42,13 @@ p.FixationCross.Size     = 0.10;        %  Size_px = ScreenY_px * Size
 p.FixationCross.Width    = 0.10;        % Width_px =    Size_px * Width
 p.FixationCross.Color    = [0 0 0 255]; % [R G B a], from 0 to 255
 p.FixationCross.Position = [0.50 0.50]; % Position_px = [ScreenX_px ScreenY_px] .* Position
+
+p.TargetLEFT. Size     = 0.20;          %  Size_px = ScreenY_px * Size
+p.TargetLEFT. Width    = 0.10;          % Width_px =    Size_px * Width
+p.TargetLEFT. Color    = [255 0 0 255]; % [R G B a], from 0 to 255
+p.TargetLEFT. Position = [0.25 0.75];   % Position_px = [ScreenX_px ScreenY_px] .* Position
+p.TargetRIGHT          = p.TargetLEFT;
+p.TargetRIGHT.Position = [0.75 0.75];
 
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
