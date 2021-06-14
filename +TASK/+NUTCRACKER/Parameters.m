@@ -1,8 +1,8 @@
-function [ EP, TaskParam ] = Parameters()
+function [ EP, TaskParam ] = Parameters( OperationMode )
 global S
 
 if nargout < 1 % only to plot the paradigme when we execute the function outside of the main script
-    S.OperationMode = 'Acquisition';
+    OperationMode = 'Acquisition';
 end
 
 p = struct; % This structure will contain all task specific parameters, such as Timings and Graphics
@@ -23,7 +23,7 @@ p.durBlockHold    = 4;       % second
 p.durBlockRest    = 2;       % second
 p.durBlockProduce = 1;       % second
 
-switch S.OperationMode
+switch OperationMode
     case 'Acquisition'
     case 'FastDebug'
         p.nBlock          = 1;       % for EACH hand
@@ -38,6 +38,10 @@ end
 
 %% Graphics
 
+p.FixationCross.Size     = 0.10;        %  Size_px = ScreenY_px * Size
+p.FixationCross.Width    = 0.10;        % Width_px =    Size_px * Width
+p.FixationCross.Color    = [0 0 0 255]; % [R G B a], from 0 to 255
+p.FixationCross.Position = [0.50 0.50]; % Position_px = [ScreenX_px ScreenY_px] .* Position
 
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

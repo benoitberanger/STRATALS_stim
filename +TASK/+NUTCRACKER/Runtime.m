@@ -4,7 +4,7 @@ global S
 try
     %% Tuning of the task
     
-    [ EP, TaskParam ] = TASK.NUTCRACKER.Parameters();
+    [ EP, TaskParam ] = TASK.NUTCRACKER.Parameters( S.OperationMode );
     
     
     %% Prepare recorders
@@ -13,6 +13,8 @@ try
     
     
     %% Initialize stim objects
+    
+    FIXATIONCROSS = TASK.NUTCRACKER.PREPARE.FixationCross();
     
     
     %% GO

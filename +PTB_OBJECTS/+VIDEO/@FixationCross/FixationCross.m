@@ -1,4 +1,4 @@
-classdef FixationCross < baseObject
+classdef FixationCross < PTB_OBJECTS.VIDEO.Base
     %FIXATIONCROSS Class to prepare and draw a fixation cross in PTB
     
     %% Properties

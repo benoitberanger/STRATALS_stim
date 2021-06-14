@@ -148,6 +148,8 @@ PTB_ENGINE.VIDEO.OpenWindow(); % this opens the windows and setup the drawings a
 % PTB_ENGINE.AUDIO.RECORD  .Parameters(); % <= here is all paramters
 % PTB_ENGINE.AUDIO.RECORD  .OpenDevice(); % this opens the record device (microphone) and setup according the the paramters above
 
+PTB_ENGINE.KEYBOARD.Parameters(); % <= here is all paramters
+
 
 %% Everything is read, start Task
 
@@ -156,8 +158,7 @@ EchoStart(Task)
 switch Task
     case 'Calibration'
         
-    case 'Nutcracker'
-        TASK.NUTCRACKER.Parameters(); % <= here is all paramters
+    case 'Nutcracker' % TASK.NUTCRACKER.Parameters <= here is all paramters
         TASK.NUTCRACKER.Runtime   (); % execution of the task
     case 'EyelinkCalibration'
         Eyelink.Calibration(S.PTB.Video.wPtr);

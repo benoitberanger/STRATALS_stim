@@ -18,7 +18,7 @@ S.ER = ER;
 %% Sample recorder
 % This will record numeric data, usually 1 line for each frame
 
-SR = SampleRecorder( { 'time (s)', 'X', 'Y' } , round(EP.Data{end,2}*S.PTB.FPS*1.20) ); % ( expected duration of the task +20% )
+SR = SampleRecorder( { 'time (s)', 'X', 'Y' } , round(EP.Data{end,2}*S.PTB.Video.FPS*1.20) ); % ( expected duration of the task +20% )
 
 S.SR = SR;
 
@@ -30,8 +30,8 @@ S.SR = SR;
 KbName('UnifyKeyNames');
 
 KL = KbLogger( ...
-    [ struct2array(S.Parameters.Keybinds)         S.Parameters.Fingers.Vect  ] ,...
-    [ KbName(struct2array(S.Parameters.Keybinds)) S.Parameters.Fingers.Names ] );
+    struct2array(S.Keybinds)         ,...
+    KbName(struct2array(S.Keybinds)) );
 
 % Start recording events
 KL.Start();
