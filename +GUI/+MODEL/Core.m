@@ -46,6 +46,11 @@ S.SaveMode = SaveMode;
 Device = GUI.CONTROLLER.getDevice( handles );
 S.Device = Device;
 
+switch Device
+    case 'Nutcracker'
+        joymex2('open',0);
+end
+
 
 %% Mode selection
 
@@ -159,7 +164,7 @@ switch Task
     case 'Calibration'
         
     case 'Nutcracker' % TASK.NUTCRACKER.Parameters <= here is all paramters
-        TASK.NUTCRACKER.Runtime   (); % execution of the task
+        TASK.NUTCRACKER.Runtime(); % execution of the task
     case 'EyelinkCalibration'
         Eyelink.Calibration(S.PTB.Video.wPtr);
         S.TaskData.ER.Data = {};
@@ -235,6 +240,14 @@ fprintf('\n')
 fprintf('~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n')
 fprintf('    Ready for another run    \n')
 fprintf('~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n')
+
+
+%% Close joystick
+
+switch Device
+    case 'Nutcracker'
+        clear joymex2
+end
 
 
 end % function

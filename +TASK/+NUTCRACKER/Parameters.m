@@ -40,15 +40,24 @@ end
 
 p.FixationCross.Size     = 0.10;        %  Size_px = ScreenY_px * Size
 p.FixationCross.Width    = 0.10;        % Width_px =    Size_px * Width
-p.FixationCross.Color    = [0 0 0 255]; % [R G B a], from 0 to 255
+p.FixationCross.Color    = [0 0 0];     % [R G B a], from 0 to 255
 p.FixationCross.Position = [0.50 0.50]; % Position_px = [ScreenX_px ScreenY_px] .* Position
 
-p.TargetLEFT. Size     = 0.20;          %  Size_px = ScreenY_px * Size
-p.TargetLEFT. Width    = 0.10;          % Width_px =    Size_px * Width
-p.TargetLEFT. Color    = [255 0 0 255]; % [R G B a], from 0 to 255
-p.TargetLEFT. Position = [0.25 0.75];   % Position_px = [ScreenX_px ScreenY_px] .* Position
+p.TargetLEFT. Size     = 0.40;          %  Size_px = ScreenX_px * Size
+p.TargetLEFT. Width    = 0.05;          % Width_px =    Size_px * Width
+p.TargetLEFT. Color    = [255 255 255]; % [R G B], from 0 to 255
+p.TargetLEFT. Position = [0.25 0.25];   % Position_px = [ScreenX_px ScreenY_px] .* Position
 p.TargetRIGHT          = p.TargetLEFT;
-p.TargetRIGHT.Position = [0.75 0.75];
+p.TargetRIGHT.Position = [0.75 0.25];
+
+p.Cursor.Size        = p.TargetLEFT .Size  * 0.95;
+p.Cursor.Width       = p.TargetLEFT .Width * 0.90;
+p.Cursor.ColorActif  = [0 255 0];
+p.Cursor.ColorPassif = [255 0 0];
+p.Cursor.pos_Left    = p.TargetLEFT .Position(1);
+p.Cursor.pos_Right   = p.TargetRIGHT.Position(1);
+p.Cursor.pos_Low     = p.TargetLEFT .Position(2);
+p.Cursor.pos_High    = 0.75;
 
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
