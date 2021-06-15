@@ -15,7 +15,7 @@ classdef Bar < PTB_OBJECTS.VIDEO.Base
         
         % Internal variables
         
-        allCoords = zeros(4,2) % coordinates of the cross for PTB, in pixels
+        allCoords = zeros(1,4) % coordinates of the cross for PTB, in pixels
         
     end % properties
     
