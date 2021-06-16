@@ -105,7 +105,7 @@ try
                 real_onset = Screen('Flip', wPtr, desired_onset);
                 
                 % Save onset
-                ER.AddEvent({evt_name real_onset []});
+                ER.AddEvent({evt_name real_onset-StartTime []});
                 
                 % While loop for most of the duration of the event, so we can press ESCAPE
                 next_onset = StartTime + EP.Data{evt+1,2} - slack;

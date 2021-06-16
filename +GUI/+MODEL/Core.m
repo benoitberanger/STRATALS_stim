@@ -184,7 +184,7 @@ save( fullfile(fileparts(pwd),'data','lastS.mat') , 'S' )
 
 % Video : comment/uncomment
 sca;
-Priority( 0 );
+Priority(0);
 
 % Audio : comment/uncomment
 % PsychPortAudio('Close');
@@ -192,7 +192,7 @@ Priority( 0 );
 
 %% Generate SPM names onset durations
 
-[ names , onsets , durations ] = SPMnod;
+[ names , onsets , durations ] = TASK.SPMnod();
 
 
 %% Save
@@ -230,9 +230,9 @@ end
 
 %% Ready for another run
 
-set(handles.text_LastFileNameAnnouncer, 'Visible','on'                             )
-set(handles.text_LastFileName         , 'Visible','on'                             )
-set(handles.text_LastFileName         , 'String' , DataFile(length(DataPath)+1:end))
+set(handles.text_LastFileNameAnnouncer, 'Visible', 'on')
+set(handles.text_LastFileName         , 'Visible', 'on')
+set(handles.text_LastFileName         , 'String' , DataFile(length(dirpath_SubjectID)+1:end))
 
 WaitSecs(0.100);
 pause(0.100);
