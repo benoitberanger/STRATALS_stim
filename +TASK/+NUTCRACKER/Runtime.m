@@ -98,7 +98,7 @@ try
                 
                 TARGET.Draw(side,'High','Active');
                 CURSOR.Update();
-                CURSOR.Draw();
+                CURSOR.Draw(side);
                 
                 % Flip at the right moment
                 desired_onset = StartTime + evt_onset - slack;
@@ -118,7 +118,7 @@ try
                     
                     TARGET.Draw(side,'High','Active');
                     CURSOR.Update();
-                    CURSOR.Draw();
+                    CURSOR.Draw(side);
                     
                     Screen('Flip', wPtr);
                     
