@@ -38,26 +38,29 @@ end
 
 %% Graphics
 
-p.FixationCross.Size     = 0.10;        %  Size_px = ScreenY_px * Size
-p.FixationCross.Width    = 0.10;        % Width_px =    Size_px * Width
-p.FixationCross.Color    = [0 0 0];     % [R G B a], from 0 to 255
-p.FixationCross.Position = [0.50 0.50]; % Position_px = [ScreenX_px ScreenY_px] .* Position
+p.FixationCross.Size     = 0.10;          %  Size_px = ScreenY_px * Size
+p.FixationCross.Width    = 0.10;          % Width_px =    Size_px * Width
+p.FixationCross.Color    = [000 000 000]; % [R G B a], from 0 to 255
+p.FixationCross.Position = [0.50 0.50];   % Position_px = [ScreenX_px ScreenY_px] .* Position
 
-p.TargetLEFT. Size     = 0.40;          %  Size_px = ScreenX_px * Size
-p.TargetLEFT. Width    = 0.05;          % Width_px =    Size_px * Width
-p.TargetLEFT. Color    = [255 255 255]; % [R G B], from 0 to 255
-p.TargetLEFT. Position = [0.25 0.25];   % Position_px = [ScreenX_px ScreenY_px] .* Position
-p.TargetRIGHT          = p.TargetLEFT;
-p.TargetRIGHT.Position = [0.75 0.25];
+p.Target.Size          = 0.40;          %  Size_px = ScreenX_px * Size
+p.Target.Width         = 0.05;          % Width_px =    Size_px * Width
+p.Target.Color         = [255 255 255]; % [R G B], from 0 to 255
+p.Target.pos_Left      = 0.25;          % always a ratio from the corresponding dimension
+p.Target.pos_Right     = 0.75;
+p.Target.pos_Low       = 0.75;
+p.Target.pos_High      = 0.25;
+p.Target.color_Active  = [000 255 000]; % for ProduceForce & Hold
+p.Target.color_Passive = [255 000 000]; % for Rest
 
-p.Cursor.Size        = p.TargetLEFT .Size  * 0.95;
-p.Cursor.Width       = p.TargetLEFT .Width * 0.90;
-p.Cursor.ColorActif  = [0 255 0];
-p.Cursor.ColorPassif = [255 0 0];
-p.Cursor.pos_Left    = p.TargetLEFT .Position(1);
-p.Cursor.pos_Right   = p.TargetRIGHT.Position(1);
-p.Cursor.pos_Low     = p.TargetLEFT .Position(2);
-p.Cursor.pos_High    = 0.75;
+p.Cursor.Size          = p.Target.Size  * 0.95;
+p.Cursor.Width         = p.Target.Width * 0.90;
+p.Cursor.pos_Left      = p.Target.pos_Left;
+p.Cursor.pos_Right     = p.Target.pos_Right;
+p.Cursor.pos_Low       = p.Target.pos_Low;
+p.Cursor.pos_High      = p.Target.pos_High;
+p.Cursor.color_Active  = [255 255 255]; % for ProduceForce & Hold
+p.Cursor.color_Passive = [000 000 000]; % wont be used
 
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

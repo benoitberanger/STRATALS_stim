@@ -1,4 +1,4 @@
-function [ ER, KL, SR ] = PrepRecorders( EP )
+function [ ER, KL, SR ] = PrepareRecorders( EP )
 global S
 
 

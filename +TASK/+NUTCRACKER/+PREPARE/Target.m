@@ -1,20 +1,18 @@
-function [ TargetLEFT, TargetRIGHT ] = Target()
+function [ TARGET ] = Target()
 global S
 
-% LEFT
-TargetLEFT = PTB_OBJECTS.VIDEO.Bar(                                                   ...
-S.TaskParam.TargetLEFT.Size * S.PTB.Video.X_total_px                                , ... % dim == total size (px)
-S.TaskParam.TargetLEFT.Size * S.PTB.Video.X_total_px * S.TaskParam.TargetLEFT.Width , ... % width == arm size (px)
-S.TaskParam.TargetLEFT.Color                                                        , ... % [R G B a] (0..255)
-S.TaskParam.TargetLEFT.Position .* [ S.PTB.Video.X_total_px S.PTB.Video.Y_total_px ]  ... % [Xpos Ypos] (px)
-);
+TARGET               = PTB_OBJECTS.VIDEO.Target();
+TARGET.dim           = S.TaskParam.Target.Size * S.PTB.Video.X_total_px;                            % dim == total size (px)
+TARGET.width         = S.TaskParam.Target.Size * S.PTB.Video.X_total_px * S.TaskParam.Target.Width; % width == arm size (px)
+TARGET.color_Active  = S.TaskParam.Target.color_Active;                                                    % [R G B a] (0..255)
+TARGET.color_Passive = S.TaskParam.Target.color_Passive;
+TARGET.pos_Left      = S.TaskParam.Target.pos_Left  * S.PTB.Video.X_total_px;
+TARGET.pos_Right     = S.TaskParam.Target.pos_Right * S.PTB.Video.X_total_px;
+TARGET.pos_Low       = S.TaskParam.Target.pos_Low   * S.PTB.Video.Y_total_px;
+TARGET.pos_High      = S.TaskParam.Target.pos_High  * S.PTB.Video.Y_total_px;
 
-TargetLEFT.LinkToWindowPtr(S.PTB.Video.wPtr);
-TargetLEFT.AssertReady();
+TARGET.LinkToWindowPtr(S.PTB.Video.wPtr);
+TARGET.AssertReady();
 
-% RIGHT
-TargetRIGHT = TargetLEFT.CopyObject();
-TargetRIGHT.center = S.TaskParam.TargetRIGHT.Position .* [ S.PTB.Video.X_total_px S.PTB.Video.Y_total_px ];
-TargetRIGHT.GenerateCoords();
 
 end % function

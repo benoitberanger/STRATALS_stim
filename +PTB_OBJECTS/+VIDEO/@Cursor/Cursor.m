@@ -1,4 +1,4 @@
-classdef Cursor < PTB_OBJECTS.VIDEO.Base
+classdef Cursor < PTB_OBJECTS.VIDEO.Target
     %CURSOR Class to prepare and horizontal rectangle PTB that will move
     
     %% Properties
@@ -7,20 +7,13 @@ classdef Cursor < PTB_OBJECTS.VIDEO.Base
         
         % Parameters
         
-        dim          = zeros(0)   % size of cross arms, in pixels
-        width        = zeros(0)   % width of each arms, in pixels
-        baseColor    = zeros(0,4) % [R G B a] from 0 to 255
-        currentColor = zeros(0,4) % [R G B a] from 0 to 255
-        pos_Left                  % px
-        pos_Right                 % px
-        pos_Low                   % px
-        pos_High                  % px
         value        = 0          % height, ratio from 0 to 1
-        side         = 'L'
+        device       = ''         % 'Nutcracke' or 'Mouse'
         
         % Internal variables
         
-        allCoords = zeros(1,4) % coordinates of the cross for PTB, in pixels
+        X                      % from Query*Data
+        Y                      % from Query*Data
         
     end % properties
     

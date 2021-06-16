@@ -1,11 +1,10 @@
-
-function [X, Y] = QueryJoystickData()
+function QueryJoystickData( self )
 
 data = joymex2('query',0);
 
 % Scale data to screen
-X = double(data.axes(1))/2^15;
-Y = double(data.axes(2))/2^15;
+self.X = double(data.axes(1))/2^15;
+self.Y = double(data.axes(2))/2^15;
 
 % Joystick scale correction
 % if X > 0
