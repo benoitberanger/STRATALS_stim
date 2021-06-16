@@ -56,7 +56,7 @@ try
                 switch S.Device
                     case 'Nutcracker'
                     case 'Mouse'
-                        SetMouse(CURSOR.pos_Left,CURSOR.pos_Low); % set mouse to arbitrary but known position
+                        SetMouse(CURSOR.pos_Left,CURSOR.pos_Low, S.ScreenID); % set mouse to arbitrary but known position
                 end
                 
                 FIXATIONCROSS.Draw();
@@ -117,11 +117,14 @@ try
                     end
                     
                     TARGET.Draw(side,'High','Active');
-                    CUROSR.Update();
+                    CURSOR.Update();
                     CURSOR.Draw();
+                    
+                    Screen('Flip', wPtr);
                     
                 end % while
                 
+                [EXIT, StopTime] = PTB_ENGINE.CheckESCAPE(1, StartTime);
                 
             case {'Trial_L_Hold', 'Trial_R_Hold'} % -----------------------
                 

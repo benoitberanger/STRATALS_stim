@@ -11,7 +11,6 @@ if IsESCAPE
     
     % Record StopTime
     S.ER.AddStopTime( 'StopTime', StopTime - StartTime );
-    S.RR.AddStopTime( 'StopTime', StopTime - StartTime );
     
     sca;
     Priority(0);
