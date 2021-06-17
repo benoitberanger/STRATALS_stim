@@ -7,5 +7,4 @@ switch self.device
         self.QueryMouseData();
 end
 
-
 end % function

@@ -33,11 +33,16 @@ try
     % Loop over the EventPlanning
     for evt = 1 : size( EP.Data , 1 )
         
-        evt_name     = EP.Data{evt,1};
-        evt_onset    = EP.Data{evt,2};
-        evt_duration = EP.Data{evt,3};
+        % Shortcuts
+        evt_name      = EP.Data{evt,1};
+        evt_onset     = EP.Data{evt,2};
+        evt_duration  = EP.Data{evt,3};
+        if evt > 1, prev_duration = EP.Data{evt-1,3}; end
         
-        % get 'side'
+        % Logs
+        fprintf('%s for %gs \n', evt_name, evt_duration)
+        
+        % Get 'side'
         split = strsplit(evt_name,'_');
         if length(split)>1
             switch split{2}
@@ -57,12 +62,15 @@ try
                     case 'Nutcracker'
                     case 'Mouse'
                         SetMouse(CURSOR.pos_Left,CURSOR.pos_Low, S.ScreenID); % set mouse to arbitrary but known position
+                        CURSOR.Update();
                 end
                 
                 FIXATIONCROSS.Draw();
                 Screen('Flip',wPtr);
                 
-                StartTime = PTB_ENGINE.StartTimeEvent(); % a wrapper, deals with hidemouse, eyelink, mri sync, ...
+                StartTime     = PTB_ENGINE.StartTimeEvent(); % a wrapper, deals with hidemouse, eyelink, mri sync, ...
+                prev_onset    = StartTime;
+                prev_duration = 0;
                 
                 
             case 'StopTime' % ---------------------------------------------
@@ -76,14 +84,15 @@ try
                 FIXATIONCROSS.Draw();
                 
                 % Flip at the right moment
-                desired_onset = StartTime + evt_onset - slack;
+                desired_onset =  prev_onset + prev_duration - slack;
                 real_onset = Screen('Flip', wPtr, desired_onset);
+                prev_onset = real_onset;
                 
                 % Save onset
                 ER.AddEvent({evt_name real_onset-StartTime []});
                 
                 % While loop for most of the duration of the event, so we can press ESCAPE
-                next_onset = StartTime + EP.Data{evt+1,2} - slack;
+                next_onset = prev_onset + evt_duration - slack;
                 while secs < next_onset
                     
                     [keyIsDown, secs, keyCode] = KbCheck();
@@ -101,15 +110,15 @@ try
                 CURSOR.Draw(side);
                 
                 % Flip at the right moment
-                desired_onset = StartTime + evt_onset - slack;
+                desired_onset = prev_onset + prev_duration - slack;
                 real_onset = Screen('Flip', wPtr, desired_onset);
+                prev_onset = real_onset;
                 
                 % Save onset
                 ER.AddEvent({evt_name real_onset-StartTime []});
                 
                 % While loop for most of the duration of the event, so we can press ESCAPE
-                next_onset = StartTime + EP.Data{evt+1,2} - slack;
-                while secs < next_onset
+                while 1
                     
                     [keyIsDown, secs, keyCode] = KbCheck();
                     if keyIsDown
@@ -120,16 +129,77 @@ try
                     CURSOR.Update();
                     CURSOR.Draw(side);
                     
-                    Screen('Flip', wPtr);
+                    flip_onset = Screen('Flip', wPtr);
+                    
+                    if CURSOR.value >= 1 % cursor reached target
+                        break;
+                    end
                     
                 end % while
                 
-                [EXIT, StopTime] = PTB_ENGINE.CheckESCAPE(1, StartTime);
                 
             case {'Trial_L_Hold', 'Trial_R_Hold'} % -----------------------
                 
+                TARGET.Draw(side,'High','Active');
+                CURSOR.Update();
+                CURSOR.Draw(side);
+                
+                % Flip at the right moment
+                desired_onset = prev_onset + prev_duration - slack;
+                real_onset = Screen('Flip', wPtr, desired_onset);
+                prev_onset = real_onset;
+                
+                % Save onset
+                ER.AddEvent({evt_name real_onset-StartTime []});
+                
+                % While loop for most of the duration of the event, so we can press ESCAPE
+                next_onset = prev_onset + evt_duration - slack;
+                while secs < next_onset
+                    [keyIsDown, secs, keyCode] = KbCheck();
+                    if keyIsDown
+                        [EXIT, StopTime] = PTB_ENGINE.CheckESCAPE(keyCode(ESCAPE), StartTime);
+                    end
+                    
+                    TARGET.Draw(side,'High','Active');
+                    CURSOR.Update();
+                    CURSOR.Draw(side);
+                    
+                    flip_onset = Screen('Flip', wPtr);
+                    
+                    
+                end % while
+                
                 
             case {'Trial_L_Rest', 'Trial_R_Rest'} % -----------------------
+                
+                TARGET.Draw(side,'Low','Passive');
+                CURSOR.Update();
+                CURSOR.Draw(side);
+                
+                % Flip at the right moment
+                desired_onset = prev_onset + prev_duration - slack;
+                real_onset = Screen('Flip', wPtr, desired_onset);
+                prev_onset = real_onset;
+                
+                % Save onset
+                ER.AddEvent({evt_name real_onset-StartTime []});
+                
+                % While loop for most of the duration of the event, so we can press ESCAPE
+                next_onset = prev_onset + evt_duration - slack;
+                while secs < next_onset
+                    [keyIsDown, secs, keyCode] = KbCheck();
+                    if keyIsDown
+                        [EXIT, StopTime] = PTB_ENGINE.CheckESCAPE(keyCode(ESCAPE), StartTime);
+                    end
+                    
+                    TARGET.Draw(side,'Low','Passive');
+                    CURSOR.Update();
+                    CURSOR.Draw(side);
+                    
+                    flip_onset = Screen('Flip', wPtr);
+                    
+                    
+                end % while
                 
                 
             otherwise % ---------------------------------------------------
