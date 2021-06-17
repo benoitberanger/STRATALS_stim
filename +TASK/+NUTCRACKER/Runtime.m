@@ -98,6 +98,7 @@ try
                     [keyIsDown, secs, keyCode] = KbCheck();
                     if keyIsDown
                         [EXIT, StopTime] = PTB_ENGINE.CheckESCAPE(keyCode(ESCAPE), StartTime);
+                        if EXIT, break, end
                     end
                     
                 end % while
@@ -105,6 +106,7 @@ try
                 
             case {'Trial_L_Produce', 'Trial_R_Produce'} % -----------------
                 
+                % Draw
                 TARGET.Draw(side,'High','Active');
                 CURSOR.Update();
                 CURSOR.Draw(side);
@@ -123,8 +125,10 @@ try
                     [keyIsDown, secs, keyCode] = KbCheck();
                     if keyIsDown
                         [EXIT, StopTime] = PTB_ENGINE.CheckESCAPE(keyCode(ESCAPE), StartTime);
+                        if EXIT, break, end
                     end
                     
+                    % Draw
                     TARGET.Draw(side,'High','Active');
                     CURSOR.Update();
                     CURSOR.Draw(side);
@@ -140,6 +144,7 @@ try
                 
             case {'Trial_L_Hold', 'Trial_R_Hold'} % -----------------------
                 
+                % Draw
                 TARGET.Draw(side,'High','Active');
                 CURSOR.Update();
                 CURSOR.Draw(side);
@@ -158,8 +163,10 @@ try
                     [keyIsDown, secs, keyCode] = KbCheck();
                     if keyIsDown
                         [EXIT, StopTime] = PTB_ENGINE.CheckESCAPE(keyCode(ESCAPE), StartTime);
+                        if EXIT, break, end
                     end
                     
+                    % Draw
                     TARGET.Draw(side,'High','Active');
                     CURSOR.Update();
                     CURSOR.Draw(side);
@@ -172,6 +179,7 @@ try
                 
             case {'Trial_L_Rest', 'Trial_R_Rest'} % -----------------------
                 
+                % Draw
                 TARGET.Draw(side,'Low','Passive');
                 CURSOR.Update();
                 CURSOR.Draw(side);
@@ -190,8 +198,10 @@ try
                     [keyIsDown, secs, keyCode] = KbCheck();
                     if keyIsDown
                         [EXIT, StopTime] = PTB_ENGINE.CheckESCAPE(keyCode(ESCAPE), StartTime);
+                        if EXIT, break, end
                     end
                     
+                    % Draw
                     TARGET.Draw(side,'Low','Passive');
                     CURSOR.Update();
                     CURSOR.Draw(side);
