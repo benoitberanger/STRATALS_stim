@@ -71,6 +71,7 @@ try
                 StartTime     = PTB_ENGINE.StartTimeEvent(); % a wrapper, deals with hidemouse, eyelink, mri sync, ...
                 prev_onset    = StartTime;
                 prev_duration = 0;
+                SR.AddSample([ 0 CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                 
                 
             case 'StopTime' % ---------------------------------------------
@@ -87,6 +88,8 @@ try
                 desired_onset =  prev_onset + prev_duration - slack;
                 real_onset = Screen('Flip', wPtr, desired_onset);
                 prev_onset = real_onset;
+                CURSOR.Update();
+                SR.AddSample([ real_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                 
                 % Save onset
                 ER.AddEvent({evt_name real_onset-StartTime []});
@@ -100,6 +103,14 @@ try
                         [EXIT, StopTime] = PTB_ENGINE.CheckESCAPE(keyCode(ESCAPE), StartTime);
                         if EXIT, break, end
                     end
+                    
+                    % Draw
+                    FIXATIONCROSS.Draw();
+                    
+                    flip_onset = Screen('Flip', wPtr);
+                    
+                    CURSOR.Update();
+                    SR.AddSample([ flip_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                     
                 end % while
                 
@@ -115,6 +126,7 @@ try
                 desired_onset = prev_onset + prev_duration - slack;
                 real_onset = Screen('Flip', wPtr, desired_onset);
                 prev_onset = real_onset;
+                SR.AddSample([ real_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                 
                 % Save onset
                 ER.AddEvent({evt_name real_onset-StartTime []});
@@ -134,6 +146,7 @@ try
                     CURSOR.Draw(side);
                     
                     flip_onset = Screen('Flip', wPtr);
+                    SR.AddSample([ flip_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                     
                     if CURSOR.(['value_' side]) >= 1 % cursor reached target
                         break;
@@ -153,6 +166,7 @@ try
                 desired_onset = prev_onset + prev_duration - slack;
                 real_onset = Screen('Flip', wPtr, desired_onset);
                 prev_onset = real_onset;
+                SR.AddSample([ real_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                 
                 % Save onset
                 ER.AddEvent({evt_name real_onset-StartTime []});
@@ -172,7 +186,7 @@ try
                     CURSOR.Draw(side);
                     
                     flip_onset = Screen('Flip', wPtr);
-                    
+                    SR.AddSample([ flip_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                     
                 end % while
                 
@@ -188,6 +202,7 @@ try
                 desired_onset = prev_onset + prev_duration - slack;
                 real_onset = Screen('Flip', wPtr, desired_onset);
                 prev_onset = real_onset;
+                SR.AddSample([ real_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                 
                 % Save onset
                 ER.AddEvent({evt_name real_onset-StartTime []});
@@ -207,8 +222,8 @@ try
                     CURSOR.Draw(side);
                     
                     flip_onset = Screen('Flip', wPtr);
-                    
-                    
+                    SR.AddSample([ flip_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
+                
                 end % while
                 
                 

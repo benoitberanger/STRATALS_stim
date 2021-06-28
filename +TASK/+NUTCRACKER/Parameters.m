@@ -19,9 +19,9 @@ p.nBlock          = 6;       % for EACH hand
 p.durRestBlock    = [10 15]; % [min max] in second, for the jitter
 p.nTrialPerBlock  = 4;       % second
 
+p.durBlockProduce = 1;       % second
 p.durBlockHold    = 4;       % second
 p.durBlockRest    = 2;       % second
-p.durBlockProduce = 1;       % second
 
 switch OperationMode
     case 'Acquisition'
