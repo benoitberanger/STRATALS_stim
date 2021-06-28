@@ -135,7 +135,7 @@ try
                     
                     flip_onset = Screen('Flip', wPtr);
                     
-                    if CURSOR.value >= 1 % cursor reached target
+                    if CURSOR.(['value_' side]) >= 1 % cursor reached target
                         break;
                     end
                     
