@@ -39,13 +39,13 @@ while(running)
     % Notice the usage of minus signs to invert certain axis values.
     % Depending on the device you may want to change these
     % (The plots are originally configured for a Xbox 360 Controller)
-    set(p1,'Xdata',a.axes(1),'Ydata',-a.axes(2));
+    set(p1,'Xdata',a.axes(1),'Ydata',a.axes(2));
     %         set(p2,'Xdata',a.axes(5),'Ydata',-a.axes(4));
     %         set(p3,'Xdata',0,'Ydata',a.axes(3));
     set(b1,'Ydata',a.buttons);
     %         set(h1,'Xdata',a.hats.right -  a.hats.left,'Ydata',a.hats.up - a.hats.down);
     
-    fprintf('%d %d \n',a.axes(1),-a.axes(2))
+    fprintf('%d %d \n',a.axes(1),a.axes(2))
     
     % Force update of plot
     drawnow
