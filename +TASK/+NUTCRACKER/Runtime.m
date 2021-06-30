@@ -92,7 +92,7 @@ try
                 SR.AddSample([ real_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                 
                 % Save onset
-                ER.AddEvent({evt_name real_onset-StartTime []});
+                ER.AddEvent({evt_name real_onset-StartTime [] EP.Data{evt, 4:end}});
                 
                 % While loop for most of the duration of the event, so we can press ESCAPE
                 next_onset = prev_onset + evt_duration - slack;
@@ -129,7 +129,7 @@ try
                 SR.AddSample([ real_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                 
                 % Save onset
-                ER.AddEvent({evt_name real_onset-StartTime []});
+                ER.AddEvent({evt_name real_onset-StartTime [] EP.Data{evt, 4:end}});
                 
                 % While loop for most of the duration of the event, so we can press ESCAPE
                 while 1
@@ -169,7 +169,7 @@ try
                 SR.AddSample([ real_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                 
                 % Save onset
-                ER.AddEvent({evt_name real_onset-StartTime []});
+                ER.AddEvent({evt_name real_onset-StartTime [] EP.Data{evt, 4:end}});
                 
                 % While loop for most of the duration of the event, so we can press ESCAPE
                 next_onset = prev_onset + evt_duration - slack;
@@ -205,7 +205,7 @@ try
                 SR.AddSample([ real_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                 
                 % Save onset
-                ER.AddEvent({evt_name real_onset-StartTime []});
+                ER.AddEvent({evt_name real_onset-StartTime [] EP.Data{evt, 4:end}});
                 
                 % While loop for most of the duration of the event, so we can press ESCAPE
                 next_onset = prev_onset + evt_duration - slack;

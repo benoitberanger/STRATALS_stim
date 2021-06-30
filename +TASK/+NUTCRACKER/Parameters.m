@@ -76,7 +76,7 @@ durRestBlock_L = Shuffle(durRestBlock);
 durRestBlock_R = Shuffle(durRestBlock);
 
 % Create and prepare
-header = { 'event_name', 'onset(s)', 'duration(s)'};
+header = { 'event_name', 'onset(s)', 'duration(s)', 'iBlock', 'iTrial', 'side'};
 EP     = EventPlanning(header);
 
 % NextOnset = PreviousOnset + PreviousDuration
@@ -88,22 +88,25 @@ EP.AddStartTime('StartTime',0);
 
 % --- Stim ----------------------------------------------------------------
 
-for evt = 1 : p.nBlock
+iTrial = 0;
+for iBlock = 1 : p.nBlock
     
-    EP.AddPlanning({ 'BlockRest' NextOnset(EP) durRestBlock_L(evt) })
+    EP.AddPlanning({ 'BlockRest' NextOnset(EP) durRestBlock_L(iBlock) iBlock iTrial ''})
     
     for n = 1 : p.nTrialPerBlock
-        EP.AddPlanning({ 'Trial_L_Produce' NextOnset(EP) p.durBlockProduce })
-        EP.AddPlanning({ 'Trial_L_Hold'    NextOnset(EP) p.durBlockHold    })
-        EP.AddPlanning({ 'Trial_L_Rest'    NextOnset(EP) p.durBlockRest    })
+        iTrial = iTrial + 1;
+        EP.AddPlanning({ 'Trial_L_Produce' NextOnset(EP) p.durBlockProduce iBlock iTrial 'Left'})
+        EP.AddPlanning({ 'Trial_L_Hold'    NextOnset(EP) p.durBlockHold    iBlock iTrial 'Left'})
+        EP.AddPlanning({ 'Trial_L_Rest'    NextOnset(EP) p.durBlockRest    iBlock iTrial 'Left'})
     end
     
-    EP.AddPlanning({ 'BlockRest' NextOnset(EP) durRestBlock_R(evt) })
+    EP.AddPlanning({ 'BlockRest' NextOnset(EP) durRestBlock_R(iBlock) iBlock iTrial ''})
     
     for n = 1 : p.nTrialPerBlock
-        EP.AddPlanning({ 'Trial_R_Produce' NextOnset(EP) p.durBlockProduce })
-        EP.AddPlanning({ 'Trial_R_Hold'    NextOnset(EP) p.durBlockHold    })
-        EP.AddPlanning({ 'Trial_R_Rest'    NextOnset(EP) p.durBlockRest    })
+        iTrial = iTrial + 1;
+        EP.AddPlanning({ 'Trial_R_Produce' NextOnset(EP) p.durBlockProduce iBlock iTrial 'Right'})
+        EP.AddPlanning({ 'Trial_R_Hold'    NextOnset(EP) p.durBlockHold    iBlock iTrial 'Right'})
+        EP.AddPlanning({ 'Trial_R_Rest'    NextOnset(EP) p.durBlockRest    iBlock iTrial 'Right'})
     end
     
 end
