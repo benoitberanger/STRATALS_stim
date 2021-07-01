@@ -25,6 +25,7 @@ try
     slack       = S.PTB.Video.slack;
     ESCAPE      = S.Keybinds.Stop_Escape;
     
+    
     %% GO
     
     EXIT = false;
@@ -37,21 +38,11 @@ try
         evt_name      = EP.Data{evt,1};
         evt_onset     = EP.Data{evt,2};
         evt_duration  = EP.Data{evt,3};
+        block         = EP.Data{evt,4};
+        trial         = EP.Data{evt,5};
+        side          = EP.Data{evt,6};
+        
         if evt > 1, prev_duration = EP.Data{evt-1,3}; end
-        
-        % Logs
-        fprintf('%s for %gs \n', evt_name, evt_duration)
-        
-        % Get 'side'
-        split = strsplit(evt_name,'_');
-        if length(split)>1
-            switch split{2}
-                case 'L'
-                    side = 'Left';
-                case 'R'
-                    side = 'Right';
-            end
-        end
         
         switch evt_name
             
@@ -116,6 +107,9 @@ try
                 
                 
             case {'Trial_L_Produce', 'Trial_R_Produce'} % -----------------
+                
+                % Logs
+                fprintf('block=%d trial=%d side=%5s \n', block, trial, side)
                 
                 % Draw
                 TARGET.Draw(side,'High','Active');
@@ -256,9 +250,9 @@ try
     switch S.OperationMode
         case 'Acquisition'
         case 'FastDebug'
-            plotDelay(EP,ER);
+            % plotDelay(EP,ER);
         case 'RealisticDebug'
-            plotDelay(EP,ER);
+            % plotDelay(EP,ER);
     end
     
     
