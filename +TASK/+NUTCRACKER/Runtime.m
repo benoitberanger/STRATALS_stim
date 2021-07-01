@@ -95,7 +95,7 @@ try
                     
                     [keyIsDown, secs, keyCode] = KbCheck();
                     if keyIsDown
-                        [EXIT, StopTime] = PTB_ENGINE.CheckESCAPE(keyCode(ESCAPE), StartTime);
+                        EXIT = keyCode(ESCAPE);
                         if EXIT, break, end
                     end
                     
@@ -113,7 +113,7 @@ try
             case {'Trial_L_Produce', 'Trial_R_Produce'} % -----------------
                 
                 % Logs
-                fprintf('block=%d trial=%d side=%5s \n', block, trial, side)
+                fprintf('block=%d   trial=%d   side=%5s   ', block, trial, side)
                 
                 % Draw
                 TARGET.Draw(side,'High','Active');
@@ -135,7 +135,7 @@ try
                     
                     [keyIsDown, secs, keyCode] = KbCheck();
                     if keyIsDown
-                        [EXIT, StopTime] = PTB_ENGINE.CheckESCAPE(keyCode(ESCAPE), StartTime);
+                        EXIT = keyCode(ESCAPE);
                         if EXIT, break, end
                     end
                     
@@ -152,6 +152,8 @@ try
                     elseif  ~flag_RT_produce && CURSOR.(['value_' side]) >= TaskParam.thresholdRT
                         flag_RT_produce = 1;
                         RT_produce.AddEvent({block trial side prev_onset-StartTime flip_onset-StartTime flip_onset-prev_onset})
+                        % Logs
+                        fprintf('RT_produce=%4dms   ', round((flip_onset-prev_onset)*1000) )
                     end
                     
                 end % while
@@ -178,7 +180,7 @@ try
                 while secs < next_onset
                     [keyIsDown, secs, keyCode] = KbCheck();
                     if keyIsDown
-                        [EXIT, StopTime] = PTB_ENGINE.CheckESCAPE(keyCode(ESCAPE), StartTime);
+                        EXIT = keyCode(ESCAPE);
                         if EXIT, break, end
                     end
                     
@@ -215,7 +217,7 @@ try
                 while secs < next_onset
                     [keyIsDown, secs, keyCode] = KbCheck();
                     if keyIsDown
-                        [EXIT, StopTime] = PTB_ENGINE.CheckESCAPE(keyCode(ESCAPE), StartTime);
+                        EXIT = keyCode(ESCAPE);
                         if EXIT, break, end
                     end
                     
@@ -230,6 +232,8 @@ try
                     if  ~flag_RT_rest && CURSOR.(['value_' side]) <= (1-TaskParam.thresholdRT)
                         flag_RT_rest = 1;
                         RT_rest.AddEvent({block trial side prev_onset-StartTime flip_onset-StartTime flip_onset-prev_onset})
+                        % Logs
+                        fprintf('RT_rest=%4dms   \n', round((flip_onset-prev_onset)*1000) )
                     end
                     
                 end % while
@@ -243,6 +247,16 @@ try
         
         % if ESCAPE is pressed
         if EXIT
+            StopTime = secs;
+            
+            % Record StopTime
+            ER.AddStopTime( 'StopTime', StopTime - StartTime );
+            
+            sca;
+            Priority(0);
+            ShowCursor;
+            
+            fprintf('ESCAPE key pressed \n');
             break
         end
         

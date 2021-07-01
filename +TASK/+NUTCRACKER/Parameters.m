@@ -117,6 +117,7 @@ end
 
 EP.AddStopTime('StopTime',NextOnset(EP));
 
+EP.BuildGraph();
 
 %% Display
 
