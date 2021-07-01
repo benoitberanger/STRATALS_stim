@@ -1,4 +1,4 @@
-function [ ER, KL, SR ] = PrepareRecorders( EP )
+function PrepareRecorders( EP )
 global S
 
 
@@ -21,6 +21,15 @@ S.ER = ER;
 SR = SampleRecorder( { 'time (s)', 'X', 'Y', 'value_Left', 'value_Right' } , round(EP.Data{end,2}*S.PTB.Video.FPS*1.20) ); % ( expected duration of the task +20% )
 
 S.SR = SR;
+
+
+%% Behaviour recorder
+
+RT_produce = EventRecorder({'block' 'trial' 'side' 'onset' 'offcet' 'RT'}, S.TaskParam.nBlock * S.TaskParam.nTrialPerBlock);
+RT_rest = RT_produce.CopyObject();
+
+S.RT_produce = RT_produce;
+S.RT_rest    = RT_rest;
 
 
 %% Prepare the keylogger, including MRI triggers

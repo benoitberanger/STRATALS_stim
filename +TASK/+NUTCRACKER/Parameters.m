@@ -23,6 +23,8 @@ p.durBlockProduce = 1;       % second
 p.durBlockHold    = 4;       % second
 p.durBlockRest    = 2;       % second
 
+p.thresholdRT     = 0.1;     % from 0 to 1 => cursor value to define RT
+
 switch OperationMode
     case 'Acquisition'
     case 'FastDebug'

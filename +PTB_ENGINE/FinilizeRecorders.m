@@ -35,4 +35,8 @@ assignin('base','ER',S.ER)
 assignin('base','KL',S.KL)
 assignin('base','SR',S.SR)
 
+assignin('base','RT_produce',S.RT_produce)
+assignin('base','RT_rest'   ,S.RT_rest   )
+
+
 end % function

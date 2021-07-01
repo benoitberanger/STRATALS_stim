@@ -9,7 +9,7 @@ try
     
     %% Prepare recorders
     
-    [ ER, KL, SR ] = PTB_ENGINE.PrepareRecorders( EP );
+    PTB_ENGINE.PrepareRecorders( S.EP );
     
     
     %% Initialize stim objects
@@ -21,6 +21,10 @@ try
     
     %% Shortcuts
     
+    ER          = S.ER;
+    SR          = S.SR;
+    RT_produce  = S.RT_produce;
+    RT_rest     = S.RT_rest;
     wPtr        = S.PTB.Video.wPtr;
     slack       = S.PTB.Video.slack;
     ESCAPE      = S.Keybinds.Stop_Escape;
@@ -52,7 +56,7 @@ try
                 switch S.Device
                     case 'Nutcracker'
                     case 'Mouse'
-                        SetMouse(CURSOR.pos_Left,CURSOR.pos_Low, S.ScreenID); % set mouse to arbitrary but known position
+                        SetMouse(CURSOR.pos_Left,CURSOR.pos_Low, S.ScreenID); % set mouse to starting position value = (0,0)
                         CURSOR.Update();
                 end
                 
@@ -126,6 +130,7 @@ try
                 ER.AddEvent({evt_name real_onset-StartTime [] EP.Data{evt, 4:end}});
                 
                 % While loop for most of the duration of the event, so we can press ESCAPE
+                flag_RT_produce = 0;
                 while 1
                     
                     [keyIsDown, secs, keyCode] = KbCheck();
@@ -144,6 +149,9 @@ try
                     
                     if CURSOR.(['value_' side]) >= 1 % cursor reached target
                         break;
+                    elseif  ~flag_RT_produce && CURSOR.(['value_' side]) >= TaskParam.thresholdRT
+                        flag_RT_produce = 1;
+                        RT_produce.AddEvent({block trial side prev_onset-StartTime flip_onset-StartTime flip_onset-prev_onset})
                     end
                     
                 end % while
@@ -203,6 +211,7 @@ try
                 
                 % While loop for most of the duration of the event, so we can press ESCAPE
                 next_onset = prev_onset + evt_duration - slack;
+                flag_RT_rest = 0;
                 while secs < next_onset
                     [keyIsDown, secs, keyCode] = KbCheck();
                     if keyIsDown
@@ -217,7 +226,12 @@ try
                     
                     flip_onset = Screen('Flip', wPtr);
                     SR.AddSample([ flip_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
-                
+                    
+                    if  ~flag_RT_rest && CURSOR.(['value_' side]) <= (1-TaskParam.thresholdRT)
+                        flag_RT_rest = 1;
+                        RT_rest.AddEvent({block trial side prev_onset-StartTime flip_onset-StartTime flip_onset-prev_onset})
+                    end
+                    
                 end % while
                 
                 
@@ -227,7 +241,7 @@ try
                 
         end % switch
         
-        % This flag comes from Common.Interrupt, if ESCAPE is pressed
+        % if ESCAPE is pressed
         if EXIT
             break
         end
