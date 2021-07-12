@@ -15,11 +15,11 @@ p = struct; % This structure will contain all task specific parameters, such as 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Timings
 
-p.nBlock          = 6;       % for EACH hand
+p.nBlock          = 5;       % for EACH hand
 p.durRestBlock    = [10 15]; % [min max] in second, for the jitter
 p.nTrialPerBlock  = 4;       % second
 
-p.durBlockProduce = 1;       % second
+p.durBlockProduce = 2;       % second ARBITRARY => subject dependent
 p.durBlockHold    = 4;       % second
 p.durBlockRest    = 2;       % second
 
@@ -35,6 +35,14 @@ switch OperationMode
         p.nBlock          = 1;       % for EACH hand
         p.durRestBlock    = [10 15]; % [min max] in second, for the jitter
         p.nTrialPerBlock  = 4;       % second
+end
+
+% Randomize Left vs Right
+while 1
+    blockOrder = Shuffle([ ones(1,p.nBlock)*1 ones(1,p.nBlock)*2 ]);
+    if ~any(diff(diff(blockOrder)) == 0)%  maximum 2 blocks in a row
+        break
+    end
 end
 
 
@@ -73,9 +81,7 @@ p.Cursor.color_Passive = [000 000 000]; % wont be used
 %% Define a planning <--- paradigme
 
 % Randomize durRestBlock
-durRestBlock   = linspace( p.durRestBlock(1), p.durRestBlock(2), p.nBlock );
-durRestBlock_L = Shuffle(durRestBlock);
-durRestBlock_R = Shuffle(durRestBlock);
+durRestBlock   = linspace( p.durRestBlock(1), p.durRestBlock(2), p.nBlock*2 );
 
 % Create and prepare
 header = { 'event_name', 'onset(s)', 'duration(s)', 'iBlock', 'iTrial', 'side'};
@@ -91,24 +97,32 @@ EP.AddStartTime('StartTime',0);
 % --- Stim ----------------------------------------------------------------
 
 iTrial = 0;
-for iBlock = 1 : p.nBlock
+for iBlock = 1 : p.nBlock * 2
     
-    EP.AddPlanning({ 'BlockRest' NextOnset(EP) durRestBlock_L(iBlock) iBlock iTrial ''})
-    
-    for n = 1 : p.nTrialPerBlock
-        iTrial = iTrial + 1;
-        EP.AddPlanning({ 'Trial_L_Produce' NextOnset(EP) p.durBlockProduce iBlock iTrial 'Left'})
-        EP.AddPlanning({ 'Trial_L_Hold'    NextOnset(EP) p.durBlockHold    iBlock iTrial 'Left'})
-        EP.AddPlanning({ 'Trial_L_Rest'    NextOnset(EP) p.durBlockRest    iBlock iTrial 'Left'})
-    end
-    
-    EP.AddPlanning({ 'BlockRest' NextOnset(EP) durRestBlock_R(iBlock) iBlock iTrial ''})
-    
-    for n = 1 : p.nTrialPerBlock
-        iTrial = iTrial + 1;
-        EP.AddPlanning({ 'Trial_R_Produce' NextOnset(EP) p.durBlockProduce iBlock iTrial 'Right'})
-        EP.AddPlanning({ 'Trial_R_Hold'    NextOnset(EP) p.durBlockHold    iBlock iTrial 'Right'})
-        EP.AddPlanning({ 'Trial_R_Rest'    NextOnset(EP) p.durBlockRest    iBlock iTrial 'Right'})
+    switch blockOrder(iBlock)
+        
+        case 1
+            
+            EP.AddPlanning({ 'BlockRest' NextOnset(EP) durRestBlock(iBlock) iBlock iTrial ''})
+            
+            for n = 1 : p.nTrialPerBlock
+                iTrial = iTrial + 1;
+                EP.AddPlanning({ 'Trial_L_Produce' NextOnset(EP) p.durBlockProduce iBlock iTrial 'Left'})
+                EP.AddPlanning({ 'Trial_L_Hold'    NextOnset(EP) p.durBlockHold    iBlock iTrial 'Left'})
+                EP.AddPlanning({ 'Trial_L_Rest'    NextOnset(EP) p.durBlockRest    iBlock iTrial 'Left'})
+            end
+            
+        case 2
+            
+            EP.AddPlanning({ 'BlockRest' NextOnset(EP) durRestBlock(iBlock) iBlock iTrial ''})
+            
+            for n = 1 : p.nTrialPerBlock
+                iTrial = iTrial + 1;
+                EP.AddPlanning({ 'Trial_R_Produce' NextOnset(EP) p.durBlockProduce iBlock iTrial 'Right'})
+                EP.AddPlanning({ 'Trial_R_Hold'    NextOnset(EP) p.durBlockHold    iBlock iTrial 'Right'})
+                EP.AddPlanning({ 'Trial_R_Rest'    NextOnset(EP) p.durBlockRest    iBlock iTrial 'Right'})
+            end
+            
     end
     
 end
