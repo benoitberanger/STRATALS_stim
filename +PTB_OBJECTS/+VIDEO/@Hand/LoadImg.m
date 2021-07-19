@@ -1,9 +1,9 @@
 function LoadImg( self, autocrop, invert )
 
-if ~exist('crop','var')
+if nargin < 2
     autocrop = 0;
 end
-if ~exist('invert','var')
+if nargin < 3
     invert = 0;
 end
 
