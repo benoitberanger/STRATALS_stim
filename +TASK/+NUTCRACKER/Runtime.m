@@ -17,6 +17,7 @@ try
     FIXATIONCROSS = TASK.NUTCRACKER.PREPARE.FixationCross();
     TARGET        = TASK.NUTCRACKER.PREPARE.Target       ();
     CURSOR        = TASK.NUTCRACKER.PREPARE.Cursor       ();
+    HAND          = TASK.NUTCRACKER.PREPARE.Hand         ();
     
     
     %% Shortcuts
