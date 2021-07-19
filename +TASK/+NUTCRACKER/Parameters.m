@@ -72,11 +72,15 @@ p.Cursor.pos_High      = p.Target.pos_High;
 p.Cursor.color_Active  = [255 255 255]; % for ProduceForce & Hold
 p.Cursor.color_Passive = [000 000 000]; % wont be used
 
-p.Hand.file     = 'hand.png'; % files have to be in 'img\'
-p.Hand.autocrop = 1;
-p.Hand.invert   = 1;
-
-
+p.Hand.file          = 'hand.png'; % files have to be in 'img\'
+p.Hand.autocrop      = 1;
+p.Hand.invert        = 1;
+p.Hand.pos_Left      = 0.45;
+p.Hand.pos_Right     = 0.55;
+p.Hand.pos_Y         = 0.90;
+p.Hand.scale         = 0.10;          %  Size_px = ScreenX_px * scale
+p.Hand.color_Active  = [000 128 000]; % for ProduceForce & Hold
+p.Hand.color_Passive = [025 025 025]; % wont be used
 
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

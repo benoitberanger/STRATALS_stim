@@ -118,6 +118,14 @@ try
                 
                 % Draw
                 TARGET.Draw(side,'High','Active');
+                switch side
+                    case 'Left'
+                        HAND.Draw('Left' ,'Active' );
+                        HAND.Draw('Right','Passive');
+                    case 'Right'
+                        HAND.Draw('Left' ,'Passive');
+                        HAND.Draw('Right','Active' );
+                end
                 CURSOR.Update();
                 CURSOR.Draw(side);
                 
@@ -142,6 +150,14 @@ try
                     
                     % Draw
                     TARGET.Draw(side,'High','Active');
+                    switch side
+                        case 'Left'
+                            HAND.Draw('Left' ,'Active' );
+                            HAND.Draw('Right','Passive');
+                        case 'Right'
+                            HAND.Draw('Left' ,'Passive');
+                            HAND.Draw('Right','Active' );
+                    end
                     CURSOR.Update();
                     CURSOR.Draw(side);
                     
@@ -164,6 +180,14 @@ try
                 
                 % Draw
                 TARGET.Draw(side,'High','Active');
+                switch side
+                    case 'Left'
+                        HAND.Draw('Left' ,'Active' );
+                        HAND.Draw('Right','Passive');
+                    case 'Right'
+                        HAND.Draw('Left' ,'Passive');
+                        HAND.Draw('Right','Active' );
+                end
                 CURSOR.Update();
                 CURSOR.Draw(side);
                 
@@ -187,6 +211,14 @@ try
                     
                     % Draw
                     TARGET.Draw(side,'High','Active');
+                    switch side
+                        case 'Left'
+                            HAND.Draw('Left' ,'Active' );
+                            HAND.Draw('Right','Passive');
+                        case 'Right'
+                            HAND.Draw('Left' ,'Passive');
+                            HAND.Draw('Right','Active' );
+                    end
                     CURSOR.Update();
                     CURSOR.Draw(side);
                     
@@ -200,6 +232,14 @@ try
                 
                 % Draw
                 TARGET.Draw(side,'Low','Passive');
+                switch side
+                    case 'Left'
+                        HAND.Draw('Left' ,'Active' );
+                        HAND.Draw('Right','Passive');
+                    case 'Right'
+                        HAND.Draw('Left' ,'Passive');
+                        HAND.Draw('Right','Active' );
+                end
                 CURSOR.Update();
                 CURSOR.Draw(side);
                 
@@ -224,6 +264,14 @@ try
                     
                     % Draw
                     TARGET.Draw(side,'Low','Passive');
+                    switch side
+                        case 'Left'
+                            HAND.Draw('Left' ,'Active' );
+                            HAND.Draw('Right','Passive');
+                        case 'Right'
+                            HAND.Draw('Left' ,'Passive');
+                            HAND.Draw('Right','Active' );
+                    end
                     CURSOR.Update();
                     CURSOR.Draw(side);
                     

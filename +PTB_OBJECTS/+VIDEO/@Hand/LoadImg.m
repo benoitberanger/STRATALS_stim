@@ -44,9 +44,9 @@ if invert
 end
 
 
-%% Generate base rect
+%% Generate rect
 
-self.rect_Base  = [0 0 size(X,2) size(X,1)];
+self.rect_Base = [0 0 size(X,2) size(X,1)];
 
 
 %% Save

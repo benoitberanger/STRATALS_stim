@@ -1,9 +1,11 @@
-function Draw( self, color )
+function Draw( self, LR, Color )
 
-if nargin < 2
-    color = [];
-end
+self.rect = CenterRectArrayOnPoint(...
+    self.rect_Scaled  ,...
+    self.(['pos_' LR]),...
+    self.pos_Y         ...
+    );
 
-Screen('DrawTexture', self.wPtr, self.texPtr, [], self.rect_Base,[],[],[],color);
+Screen('DrawTexture', self.wPtr,  self.(['texPtr_' LR]), [], self.rect,[],[],[],self.(['color_' Color]));
 
 end % function
