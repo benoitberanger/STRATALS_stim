@@ -192,8 +192,7 @@ try
                 CURSOR.Draw(side);
                 
                 % Flip at the right moment
-                desired_onset = prev_onset + prev_duration - slack;
-                real_onset = Screen('Flip', wPtr, desired_onset);
+                real_onset = Screen('Flip', wPtr);
                 prev_onset = real_onset;
                 SR.AddSample([ real_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                 
