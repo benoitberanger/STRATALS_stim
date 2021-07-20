@@ -1,6 +1,6 @@
 function MakeTexture( self )
 
-assert(~isempty(self.wPtr), 'use LinkToWindowPtr first')
+assert(~isempty(self.wPtr), 'use LinkToWindowPtr() first')
 
 texPtr_Left  = Screen( 'MakeTexture', self.wPtr,        cat(3, self.X, self.alpha)  );
 texPtr_Right = Screen( 'MakeTexture', self.wPtr, fliplr(cat(3, self.X, self.alpha)) );

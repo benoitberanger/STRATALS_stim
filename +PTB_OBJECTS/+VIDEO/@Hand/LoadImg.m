@@ -1,4 +1,4 @@
-function LoadImg( self, autocrop, invert )
+function LoadImg( self, autocrop, invert, smoothing_kernel )
 
 if nargin < 2
     autocrop = 0;
@@ -11,6 +11,35 @@ end
 %% Load image in MATLAB
 
 [X, ~, alpha] = imread(self.fpath);
+
+
+%% Invert
+
+if invert
+    X = 255 - X;
+end
+
+
+%% Smoothing
+
+if smoothing_kernel
+    
+    grid_size       = round(smoothing_kernel*2.0);                           % the size of the grid must be big enough to sample a gaussian curve
+    [grid_x,grid_y] = meshgrid(-grid_size:grid_size, -grid_size:grid_size);  % create the 2D kernel matrix
+    sigma           = smoothing_kernel / (2 * sqrt(2*log(2)));               % conversion from FWHM to Sigma
+    envelope        = 255 * exp( -(grid_x.^2 + grid_y.^2) / (2 * sigma^2) ); % and here is the gaussian kernel
+    
+    X = double(X); % convert to double, or else i have mismatched between uint8 inputs and conv2 double outputs
+    for i = 1 : 3 % for each channel (RGB)
+        X(:,:,i) = conv2( X(:,:,i), envelope, 'same' );
+        X(:,:,i) = 255 * X(:,:,i)/max(reshape(X(:,:,i),[1 numel(X(:,:,i))])); % normalize to [0 255]
+    end
+    
+    alpha = double(alpha);
+    alpha = conv2( alpha, envelope, 'same' );
+    alpha = 255 * alpha/max(alpha(:));
+    
+end
 
 
 %% Auto crop
@@ -35,12 +64,6 @@ if autocrop
     X = X(up_lim:down_lim,left_lim:right_lim,:);
     alpha = alpha(up_lim:down_lim,left_lim:right_lim);
     
-end
-
-%% Invert
-
-if invert
-    X = 255 - X;
 end
 
 

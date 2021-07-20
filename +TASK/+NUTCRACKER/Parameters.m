@@ -37,14 +37,6 @@ switch OperationMode
         p.nTrialPerBlock  = 4;       % second
 end
 
-% Randomize Left vs Right
-while 1
-    blockOrder = Shuffle([ ones(1,p.nBlock)*1 ones(1,p.nBlock)*2 ]);
-    if ~any(diff(diff(blockOrder)) == 0)%  maximum 2 blocks in a row
-        break
-    end
-end
-
 
 %% Graphics
 
@@ -72,9 +64,10 @@ p.Cursor.pos_High      = p.Target.pos_High;
 p.Cursor.color_Active  = [255 255 255]; % for ProduceForce & Hold
 p.Cursor.color_Passive = [000 000 000]; % wont be used
 
-p.Hand.file          = 'hand.png'; % files have to be in 'img\'
-p.Hand.autocrop      = 1;
-p.Hand.invert        = 1;
+p.Hand.file          = 'hand.png';    % files have to be in 'img\'
+p.Hand.autocrop      = 1;             % auto-crop
+p.Hand.invert        = 1;             % useful when the image is black instead of white
+p.Hand.FWHM          = 10;            % px : kernel size for smoothing the image
 p.Hand.pos_Left      = 0.45;
 p.Hand.pos_Right     = 0.55;
 p.Hand.pos_Y         = 0.90;
@@ -90,8 +83,16 @@ p.Hand.color_Passive = [025 025 025]; % wont be used
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Define a planning <--- paradigme
 
+% Randomize Left vs Right
+while 1
+    blockOrder = Shuffle([ ones(1,p.nBlock)*1 ones(1,p.nBlock)*2 ]);
+    if ~any(diff(diff(blockOrder)) == 0)%  maximum 2 blocks in a row
+        break
+    end
+end
+
 % Randomize durRestBlock
-durRestBlock   = linspace( p.durRestBlock(1), p.durRestBlock(2), p.nBlock*2 );
+durRestBlock = linspace( p.durRestBlock(1), p.durRestBlock(2), p.nBlock*2 );
 
 % Create and prepare
 header = { 'event_name', 'onset(s)', 'duration(s)', 'iBlock', 'iTrial', 'side'};
