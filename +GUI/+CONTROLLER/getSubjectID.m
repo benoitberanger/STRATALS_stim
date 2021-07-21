@@ -11,6 +11,6 @@ date = datestr(now,29);
 dirname_SubjectID = [ date '__' SubjectID ];
 
 % dir path
-dirpath_SubjectID = fullfile( fileparts(pwd), 'data', dirname_SubjectID);
+dirpath_SubjectID = fullfile( fileparts(pwd), 'data', dirname_SubjectID, filesep);
 
 end % function
