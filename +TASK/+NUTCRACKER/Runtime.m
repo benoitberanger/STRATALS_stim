@@ -62,6 +62,8 @@ try
                 end
                 
                 FIXATIONCROSS.Draw();
+                HAND.Draw('Left' ,'Passive');
+                HAND.Draw('Right','Passive');
                 Screen('Flip',wPtr);
                 
                 StartTime     = PTB_ENGINE.StartTimeEvent(); % a wrapper, deals with hidemouse, eyelink, mri sync, ...
@@ -79,6 +81,8 @@ try
                 
                 % Draw
                 FIXATIONCROSS.Draw();
+                HAND.Draw('Left' ,'Passive');
+                HAND.Draw('Right','Passive');
                 
                 % Flip at the right moment
                 desired_onset =  prev_onset + prev_duration - slack;
@@ -102,6 +106,8 @@ try
                     
                     % Draw
                     FIXATIONCROSS.Draw();
+                    HAND.Draw('Left' ,'Passive');
+                    HAND.Draw('Right','Passive');
                     
                     flip_onset = Screen('Flip', wPtr);
                     
@@ -313,11 +319,11 @@ try
     
     %% End of task execution stuff
     
-    PTB_ENGINE.FinilizeRecorders( StartTime );
-    
     % Save some values
     S.StartTime = StartTime;
     S.StopTime  = StopTime;
+    
+    PTB_ENGINE.FinilizeRecorders();
     
     % Close parallel port
     if S.ParPort, CloseParPort(); end

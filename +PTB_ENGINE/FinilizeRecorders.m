@@ -1,4 +1,4 @@
-function FinilizeRecorders( StartTime )
+function FinilizeRecorders()
 global S
 
 % EventRecorder => real onset & duration of events
@@ -15,10 +15,10 @@ switch S.OperationMode
     case 'Acquisition'
     case 'FastDebug'
         nbVolumes = ceil( S.EP.Data{end,2} / TR ) ; % nb of volumes for the estimated time of stimulation
-        S.KL.GenerateMRITrigger( TR , nbVolumes + 2 , StartTime );
+        S.KL.GenerateMRITrigger( TR , nbVolumes + 2 , S.StartTime );
     case 'RealisticDebug'
         nbVolumes = ceil( S.EP.Data{end,2} / TR ); % nb of volumes for the estimated time of stimulation
-        S.KL.GenerateMRITrigger( TR , nbVolumes + 2, StartTime );
+        S.KL.GenerateMRITrigger( TR , nbVolumes + 2, S.StartTime );
     otherwise
 end
 S.KL.ScaleTime();
