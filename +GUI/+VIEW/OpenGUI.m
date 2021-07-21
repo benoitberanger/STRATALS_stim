@@ -7,7 +7,7 @@ function varargout = OpenGUI()
 % to base workspace.
 debug = 0;
 
-gui_name = ['GUI_' project_name];
+gui_name = [ 'GUI_' project_name() ];
 
 
 %% Open a singleton figure, or gring the actual into focus.
@@ -62,7 +62,7 @@ else % Create the figure
     
     panelProp.interWidth = 0.01;
     panelProp.vect  = ...
-        [0.75 0.75 1 1 0.75 1.5 ]; % relative proportions of each panel, from bottom to top
+        [0.5 0.75 0.75 1 1 0.75 1.5 ]; % relative proportions of each panel, from bottom to top
     
     panelProp.vectLength    = length(panelProp.vect);
     panelProp.vectTotal     = sum(panelProp.vect);
@@ -686,6 +686,65 @@ else % Create the figure
         'HorizontalAlignment','Center',...
         'Tag',r_rd.tag,...
         'BackgroundColor',figureBGcolor);
+    
+    
+    %% Panel : record movie
+    
+    p_movie.x = panelProp.xposP;
+    p_movie.w = panelProp.wP;
+    
+    panelProp.countP = panelProp.countP - 1;
+    p_movie.y = panelProp.yposP(panelProp.countP);
+    p_movie.h = panelProp.unitWidth*panelProp.vect(panelProp.countP);
+    
+    handles.uipanel_Movie = uibuttongroup(handles.(gui_name),...
+        'Title','Movie recording',...
+        'Units', 'Normalized',...
+        'Position',[p_movie.x p_movie.y p_movie.w p_movie.h],...
+        'BackgroundColor',figureBGcolor);
+    
+    p_movie.nbO    = 2; % Number of objects
+    p_movie.Ow     = 1/(p_movie.nbO + 1); % Object width
+    p_movie.countO = 0; % Object counter
+    p_movie.xposO  = @(countO) p_movie.Ow/(p_movie.nbO+1)*countO + (countO-1)*p_movie.Ow;
+    
+    
+    % ---------------------------------------------------------------------
+    % RadioButton : Nutcracker == joystick IO
+    
+    p_movie.countO = p_movie.countO + 1;
+    r_movie_off.x   = p_movie.xposO(p_movie.countO);
+    r_movie_off.y   = 0.1 ;
+    r_movie_off.w   = p_movie.Ow;
+    r_movie_off.h   = 0.8;
+    r_movie_off.tag = 'radiobutton_movie_off';
+    handles.(r_movie_off.tag) = uicontrol(handles.uipanel_Movie,...
+        'Style','radiobutton'                             ,...
+        'Units', 'Normalized'                             ,...
+        'Position',[r_movie_off.x r_movie_off.y r_movie_off.w r_movie_off.h],...
+        'String','Off       '                             ,...
+        'HorizontalAlignment','Center'                    ,...
+        'Tag',r_movie_off.tag                             ,...
+        'BackgroundColor',figureBGcolor                   );
+    
+    
+    % ---------------------------------------------------------------------
+    % RadioButton : Mouse (for debugging)
+    
+    p_movie.countO = p_movie.countO + 1;
+    r_movie_on.x   = p_movie.xposO(p_movie.countO);
+    r_movie_on.y   = 0.1 ;
+    r_movie_on.w   = p_movie.Ow;
+    r_movie_on.h   = 0.8;
+    r_movie_on.tag = 'radiobutton_movie_on';
+    handles.(r_movie_on.tag) = uicontrol(handles.uipanel_Movie,...
+        'Style','radiobutton'                               ,...
+        'Units', 'Normalized'                               ,...
+        'Position',[r_movie_on.x r_movie_on.y r_movie_on.w r_movie_on.h],...
+        'String','On'                                       ,...
+        'HorizontalAlignment','Center'                      ,...
+        'Tag',r_movie_on.tag                                ,...
+        'BackgroundColor',figureBGcolor                     );
     
     
     %% End of opening

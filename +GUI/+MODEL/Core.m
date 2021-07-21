@@ -31,13 +31,13 @@ S.TimeStampFile   = datestr(now, 30                ); % yyyymmddTHHMMSS : to sor
 
 %% Task selection
 
-Task = GUI.CONTROLLER.getTask( hObject );
+Task   = GUI.CONTROLLER.getTask( hObject );
 S.Task = Task;
 
 
 %% Save mode selection
 
-SaveMode = GUI.CONTROLLER.getSaveMode( handles );
+SaveMode   = GUI.CONTROLLER.getSaveMode( handles );
 S.SaveMode = SaveMode;
 
 
@@ -54,8 +54,14 @@ end
 
 %% Mode selection
 
-OperationMode = GUI.CONTROLLER.getOperationMode( handles );
+OperationMode   = GUI.CONTROLLER.getOperationMode( handles );
 S.OperationMode = OperationMode;
+
+
+%% Movie off/on
+
+MovieMode   = GUI.CONTROLLER.getMovieMode( handles );
+S.MovieMode = MovieMode;
 
 
 %% Subject ID & Run number
@@ -70,12 +76,10 @@ if SaveMode && strcmp(OperationMode,'Acquisition')
     
 end
 
-DataFile_noRun = sprintf('%s_%s', SubjectID, Task );
-
-RunNumber = GUI.MODEL.getRunNumber( DataFile_noRun );
-
-DataFile     = sprintf('%s%s_%s_%s_run%0.2d', dirpath_SubjectID, S.TimeStampFile, SubjectID, Task, RunNumber );
-DataFileName = sprintf(  '%s_%s_%s_run%0.2d',                    S.TimeStampFile, SubjectID, Task, RunNumber );
+DataFile_noRun  = sprintf('%s_%s', SubjectID, Task );
+RunNumber       = GUI.MODEL.getRunNumber( DataFile_noRun );
+DataFile        = sprintf('%s%s_%s_%s_run%0.2d', dirpath_SubjectID, S.TimeStampFile, SubjectID, Task, RunNumber );
+DataFileName    = sprintf(  '%s_%s_%s_run%0.2d',                    S.TimeStampFile, SubjectID, Task, RunNumber );
 
 S.SubjectID     = SubjectID;
 S.RunNumber     = RunNumber;
@@ -94,8 +98,8 @@ end
 
 %% Parallel port ?
 
-ParPort = GUI.CONTROLLER.getParPort( handles );
-S.ParPort = ParPort;
+ParPort           = GUI.CONTROLLER.getParPort( handles );
+S.ParPort         = ParPort;
 S.ParPortMessages = PARPORT.Prepare();
 
 
@@ -116,10 +120,10 @@ if EyelinkMode
     Eyelink.IsConnected
     
     % Generate the Eyelink filename
-    eyelink_max_finename = 8;                                          % Eyelink filename must be 8 char or less...
-    available_char = ['a':'z' 'A':'Z' '0':'9'];                        % This is all characters available (N=62)
-    name_num = randi(length(available_char),[1 eyelink_max_finename]); % Pick 8 numbers, from 1 to N=62 (same char can be picked twice)
-    name_str = available_char(name_num);                               % Convert the 8 numbers into char
+    eyelink_max_finename = 8;                                                       % Eyelink filename must be 8 char or less...
+    available_char        = ['a':'z' 'A':'Z' '0':'9'];                              % This is all characters available (N=62)
+    name_num              = randi(length(available_char),[1 eyelink_max_finename]); % Pick 8 numbers, from 1 to N=62 (same char can be picked twice)
+    name_str              = available_char(name_num);                               % Convert the 8 numbers into char
     
     % Save it
     S.EyelinkFile = name_str;
