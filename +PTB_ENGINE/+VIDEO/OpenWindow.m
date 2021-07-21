@@ -78,6 +78,13 @@ Screen('Flip',S.PTB.Video.wPtr);
 WaitSecs(0.100);
 
 
+%% Record video ?
+
+if S.MovieMode
+    PTB_ENGINE.VIDEO.MOVIE.Create();
+end
+
+
 %% Echo in command window
 
 EchoStop(mfilename)

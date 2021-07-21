@@ -29,6 +29,7 @@ try
     wPtr        = S.PTB.Video.wPtr;
     slack       = S.PTB.Video.slack;
     ESCAPE      = S.Keybinds.Stop_Escape;
+    if S.MovieMode, moviePtr = S.moviePtr; end
     
     
     %% GO
@@ -41,7 +42,7 @@ try
         
         % Shortcuts
         evt_name      = EP.Data{evt,1};
-        evt_onset     = EP.Data{evt,2};
+        % evt_onset     = EP.Data{evt,2};
         evt_duration  = EP.Data{evt,3};
         block         = EP.Data{evt,4};
         trial         = EP.Data{evt,5};
@@ -61,9 +62,11 @@ try
                         CURSOR.Update();
                 end
                 
+                % Draw
                 FIXATIONCROSS.Draw();
                 HAND.Draw('Left' ,'Passive');
                 HAND.Draw('Right','Passive');
+                if S.MovieMode, PTB_ENGINE.VIDEO.MOVIE.AddFrame(wPtr,moviePtr); end
                 Screen('Flip',wPtr);
                 
                 StartTime     = PTB_ENGINE.StartTimeEvent(); % a wrapper, deals with hidemouse, eyelink, mri sync, ...
@@ -83,6 +86,7 @@ try
                 FIXATIONCROSS.Draw();
                 HAND.Draw('Left' ,'Passive');
                 HAND.Draw('Right','Passive');
+                if S.MovieMode, PTB_ENGINE.VIDEO.MOVIE.AddFrame(wPtr,moviePtr); end
                 
                 % Flip at the right moment
                 desired_onset =  prev_onset + prev_duration - slack;
@@ -108,11 +112,12 @@ try
                     FIXATIONCROSS.Draw();
                     HAND.Draw('Left' ,'Passive');
                     HAND.Draw('Right','Passive');
+                    if S.MovieMode, PTB_ENGINE.VIDEO.MOVIE.AddFrame(wPtr,moviePtr); end
                     
                     flip_onset = Screen('Flip', wPtr);
-                    
                     CURSOR.Update();
                     SR.AddSample([ flip_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
+                    
                     
                 end % while
                 
@@ -134,7 +139,8 @@ try
                 end
                 CURSOR.Update();
                 CURSOR.Draw(side);
-                
+                if S.MovieMode, PTB_ENGINE.VIDEO.MOVIE.AddFrame(wPtr,moviePtr); end
+                    
                 % Flip at the right moment
                 desired_onset = prev_onset + prev_duration - slack;
                 real_onset = Screen('Flip', wPtr, desired_onset);
@@ -166,7 +172,9 @@ try
                     end
                     CURSOR.Update();
                     CURSOR.Draw(side);
+                    if S.MovieMode, PTB_ENGINE.VIDEO.MOVIE.AddFrame(wPtr,moviePtr); end
                     
+                    % Flip
                     flip_onset = Screen('Flip', wPtr);
                     SR.AddSample([ flip_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                     
@@ -196,7 +204,8 @@ try
                 end
                 CURSOR.Update();
                 CURSOR.Draw(side);
-                
+                if S.MovieMode, PTB_ENGINE.VIDEO.MOVIE.AddFrame(wPtr,moviePtr); end
+                    
                 % Flip at the right moment
                 real_onset = Screen('Flip', wPtr);
                 prev_onset = real_onset;
@@ -226,7 +235,9 @@ try
                     end
                     CURSOR.Update();
                     CURSOR.Draw(side);
+                    if S.MovieMode, PTB_ENGINE.VIDEO.MOVIE.AddFrame(wPtr,moviePtr); end
                     
+                     % Flip
                     flip_onset = Screen('Flip', wPtr);
                     SR.AddSample([ flip_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                     
@@ -247,7 +258,8 @@ try
                 end
                 CURSOR.Update();
                 CURSOR.Draw(side);
-                
+                if S.MovieMode, PTB_ENGINE.VIDEO.MOVIE.AddFrame(wPtr,moviePtr); end
+                    
                 % Flip at the right moment
                 desired_onset = prev_onset + prev_duration - slack;
                 real_onset = Screen('Flip', wPtr, desired_onset);
@@ -279,6 +291,7 @@ try
                     end
                     CURSOR.Update();
                     CURSOR.Draw(side);
+                    if S.MovieMode, PTB_ENGINE.VIDEO.MOVIE.AddFrame(wPtr,moviePtr); end
                     
                     flip_onset = Screen('Flip', wPtr);
                     SR.AddSample([ flip_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
@@ -337,6 +350,13 @@ try
             % plotDelay(EP,ER);
     end
     
+    try % I really don't want to this feature to screw a standard task execution
+        if exist('moviePtr','var')
+            PTB_ENGINE.VIDEO.MOVIE.Finalize(moviePtr);
+        end
+    catch
+    end
+    
     
 catch err
     
@@ -350,6 +370,10 @@ catch err
     end
     
     rethrow(err);
+    
+    if exist('moviePtr','var') %#ok<UNRCH>
+        PTB_ENGINE.VIDEO.MOVIE.Finalize(moviePtr);
+    end
     
 end % try
 

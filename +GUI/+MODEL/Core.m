@@ -63,7 +63,7 @@ S.OperationMode = OperationMode;
 MovieMode   = GUI.CONTROLLER.getMovieMode( handles );
 if ~(strcmp(OperationMode,'Acquisition') && SaveMode)
     MovieMode = 0;
-    warning('\n Movie can only be savec with SaveMode=1 & OperationMode=''Acquisition''')
+    warning('Movie can only be savec with SaveMode=1 & OperationMode=''Acquisition''')
 end
 
 S.MovieMode = MovieMode;
