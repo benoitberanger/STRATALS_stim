@@ -57,7 +57,7 @@ try
                 switch S.Device
                     case 'Nutcracker'
                     case 'Mouse'
-                        SetMouse(CURSOR.pos_Left,CURSOR.pos_Low, S.ScreenID); % set mouse to starting position value = (0,0)
+                        SetMouse(CURSOR.pos_X,CURSOR.pos_Low, S.ScreenID); % set mouse to starting position value = (0,0)
                         CURSOR.Update();
                 end
                 
@@ -117,7 +117,7 @@ try
                 fprintf('block=%d   trial=%d   side=%5s   ', block, trial, side)
                 
                 % Draw
-                TARGET.Draw(side,'High','Active');
+                TARGET.Draw('High','Active');
                 switch side
                     case 'Left'
                         HAND.Draw('Left' ,'Active' );
@@ -149,7 +149,7 @@ try
                     end
                     
                     % Draw
-                    TARGET.Draw(side,'High','Active');
+                    TARGET.Draw('High','Active');
                     switch side
                         case 'Left'
                             HAND.Draw('Left' ,'Active' );
@@ -179,7 +179,7 @@ try
             case {'Trial_L_Hold', 'Trial_R_Hold'} % -----------------------
                 
                 % Draw
-                TARGET.Draw(side,'High','Active');
+                TARGET.Draw('High','Active');
                 switch side
                     case 'Left'
                         HAND.Draw('Left' ,'Active' );
@@ -209,7 +209,7 @@ try
                     end
                     
                     % Draw
-                    TARGET.Draw(side,'High','Active');
+                    TARGET.Draw('High','Active');
                     switch side
                         case 'Left'
                             HAND.Draw('Left' ,'Active' );
@@ -230,7 +230,7 @@ try
             case {'Trial_L_Rest', 'Trial_R_Rest'} % -----------------------
                 
                 % Draw
-                TARGET.Draw(side,'Low','Passive');
+                TARGET.Draw('Low','Passive');
                 switch side
                     case 'Left'
                         HAND.Draw('Left' ,'Active' );
@@ -262,7 +262,7 @@ try
                     end
                     
                     % Draw
-                    TARGET.Draw(side,'Low','Passive');
+                    TARGET.Draw('Low','Passive');
                     switch side
                         case 'Left'
                             HAND.Draw('Left' ,'Active' );

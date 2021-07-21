@@ -11,8 +11,7 @@ classdef Target < PTB_OBJECTS.VIDEO.Base
         width         = zeros(0)   % width of each arms, in pixels
         color_Active  = zeros(0,4) % [R G B a] from 0 to 255
         color_Passive = zeros(0,4) % [R G B a] from 0 to 255
-        pos_Left                   % px
-        pos_Right                  % px
+        pos_X                      % px
         pos_Low                    % px
         pos_High                   % px
         

@@ -48,8 +48,7 @@ p.FixationCross.Position = [0.50 0.50];   % Position_px = [ScreenX_px ScreenY_px
 p.Target.Size          = 0.40;          %  Size_px = ScreenX_px * Size
 p.Target.Width         = 0.05;          % Width_px =    Size_px * Width
 p.Target.Color         = [255 255 255]; % [R G B], from 0 to 255
-p.Target.pos_Left      = 0.25;          % always a ratio from the corresponding dimension
-p.Target.pos_Right     = 0.75;
+p.Target.pos_X         = 0.50;          % always a ratio from the corresponding dimension
 p.Target.pos_Low       = 0.75;
 p.Target.pos_High      = 0.25;
 p.Target.color_Active  = [000 255 000]; % for ProduceForce & Hold
@@ -57,8 +56,7 @@ p.Target.color_Passive = [255 000 000]; % for Rest
 
 p.Cursor.Size          = p.Target.Size  * 0.95;
 p.Cursor.Width         = p.Target.Width * 0.90;
-p.Cursor.pos_Left      = p.Target.pos_Left;
-p.Cursor.pos_Right     = p.Target.pos_Right;
+p.Cursor.pos_X         = p.Target.pos_X;
 p.Cursor.pos_Low       = p.Target.pos_Low;
 p.Cursor.pos_High      = p.Target.pos_High;
 p.Cursor.color_Active  = [255 255 255]; % for ProduceForce & Hold
