@@ -61,6 +61,11 @@ S.OperationMode = OperationMode;
 %% Movie off/on
 
 MovieMode   = GUI.CONTROLLER.getMovieMode( handles );
+if ~(strcmp(OperationMode,'Acquisition') && SaveMode)
+    MovieMode = 0;
+    warning('\n Movie can only be savec with SaveMode=1 & OperationMode=''Acquisition''')
+end
+
 S.MovieMode = MovieMode;
 
 
@@ -91,8 +96,8 @@ S.DataFileName  = DataFileName;
 %% Quick warning
 
 % Acquisition => save data
-if strcmp(OperationMode,'Acquisition') && SaveMode
-    warning('BIOMRI_CADA:DataShouldBeSaved','\n\n In acquisition mode, data should be saved \n')
+if strcmp(OperationMode,'Acquisition') && ~SaveMode
+    warning('In acquisition mode, data should be saved')
 end
 
 
@@ -105,8 +110,8 @@ S.ParPortMessages = PARPORT.Prepare();
 
 %% Eyelink ?
 
-EyelinkMode = GUI.CONTROLLER.getEyelinkMode( handles );
-
+EyelinkMode   = GUI.CONTROLLER.getEyelinkMode( handles );
+S.EyelinkMode = EyelinkMode;
 
 if EyelinkMode
     
@@ -202,10 +207,6 @@ Priority(0);
 %% Save
 
 if SaveMode && strcmp(OperationMode,'Acquisition')
-    
-    if ~exist(DataPath, 'dir')
-        mkdir(DataPath);
-    end
     
     save( DataFile        , 'S', 'names', 'onsets', 'durations'); % complet file
     save([DataFile '_SPM']     , 'names', 'onsets', 'durations'); % light weight file with only the onsets for SPM
