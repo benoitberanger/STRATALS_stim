@@ -25,11 +25,15 @@ S.SR = SR;
 
 %% Behaviour recorder
 
-RT_produce = EventRecorder({'block' 'trial' 'side' 'onset' 'offcet' 'RT'}, S.TaskParam.nBlock * S.TaskParam.nTrialPerBlock);
-RT_rest = RT_produce.CopyObject();
+RT_produce = SampleRecorder({'onset(s)' 'block#' 'trial#' 'side(LR=-1+1)' 'RT(s)'}, S.TaskParam.nBlock * S.TaskParam.nTrialPerBlock);
+RT_rest    = RT_produce.CopyObject();
+Stability  = SampleRecorder({'onset(s)' 'block#' 'trial#' 'side(LR=-1+1)'...
+    'sample_start' 'sample_stop' 'score_accuracy' 'ratio_over_under' 'score_overshot' 'score_undershot' 'score_stability' },...
+    S.TaskParam.nBlock * S.TaskParam.nTrialPerBlock);
 
 S.RT_produce = RT_produce;
 S.RT_rest    = RT_rest;
+S.Stability  = Stability;
 
 
 %% Prepare the keylogger, including MRI triggers

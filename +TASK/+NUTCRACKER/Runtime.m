@@ -9,7 +9,7 @@ try
     
     %% Prepare recorders
     
-    PTB_ENGINE.PrepareRecorders( S.EP );
+    PTB_ENGINE.PrepareRecorders( EP );
     
     
     %% Initialize stim objects
@@ -26,6 +26,7 @@ try
     SR          = S.SR;
     RT_produce  = S.RT_produce;
     RT_rest     = S.RT_rest;
+    Stability   = S.Stability;
     wPtr        = S.PTB.Video.wPtr;
     slack       = S.PTB.Video.slack;
     ESCAPE      = S.Keybinds.Stop_Escape;
@@ -38,7 +39,8 @@ try
     secs = GetSecs();
     
     % Loop over the EventPlanning
-    for evt = 1 : size( EP.Data , 1 )
+    nEvents = size( EP.Data , 1 );
+    for evt = 1 : nEvents
         
         % Shortcuts
         evt_name      = EP.Data{evt,1};
@@ -47,8 +49,15 @@ try
         block         = EP.Data{evt,4};
         trial         = EP.Data{evt,5};
         side          = EP.Data{evt,6};
-        
-        if evt > 1, prev_duration = EP.Data{evt-1,3}; end
+        if (evt > 1) && (evt < nEvents)
+            prev_duration = EP.Data{evt-1,3};
+            switch side
+                case 'Left'
+                    side_num = -1;
+                case 'Right'
+                    side_num = +1;
+            end
+        end
         
         switch evt_name
             
@@ -182,7 +191,7 @@ try
                         break;
                     elseif  ~flag_RT_produce && CURSOR.(['value_' side]) >= TaskParam.thresholdRT
                         flag_RT_produce = 1;
-                        RT_produce.AddEvent({block trial side prev_onset-StartTime flip_onset-StartTime flip_onset-prev_onset})
+                        RT_produce.AddSample([prev_onset-StartTime block trial side_num flip_onset-prev_onset])
                         % Logs
                         fprintf('RT_produce=%4dms   ', round((flip_onset-prev_onset)*1000) )
                     end
@@ -210,6 +219,9 @@ try
                 real_onset = Screen('Flip', wPtr);
                 prev_onset = real_onset;
                 SR.AddSample([ real_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
+                
+                % Stability
+                sample_start = SR.SampleCount;
                 
                 % Save onset
                 ER.AddEvent({evt_name real_onset-StartTime [] EP.Data{evt, 4:end}});
@@ -242,6 +254,12 @@ try
                     SR.AddSample([ flip_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                     
                 end % while
+                
+                % Stability
+                sample_stop = SR.SampleCount;
+                data        = zeros(size(Stability.Header));
+                data(1:6)   = [prev_onset-StartTime block trial side_num sample_start sample_stop];
+                Stability.AddSample(data); % the rest will b filled later, in post-processing
                 
                 
             case {'Trial_L_Rest', 'Trial_R_Rest'} % -----------------------
@@ -298,7 +316,7 @@ try
                     
                     if  ~flag_RT_rest && CURSOR.(['value_' side]) <= (1-TaskParam.thresholdRT)
                         flag_RT_rest = 1;
-                        RT_rest.AddEvent({block trial side prev_onset-StartTime flip_onset-StartTime flip_onset-prev_onset})
+                        RT_rest.AddSample([prev_onset-StartTime block trial side_num flip_onset-prev_onset])
                         % Logs
                         fprintf('RT_rest=%4dms   \n', round((flip_onset-prev_onset)*1000) )
                     end

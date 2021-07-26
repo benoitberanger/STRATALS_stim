@@ -29,12 +29,12 @@ switch OperationMode
     case 'Acquisition'
     case 'FastDebug'
         p.nBlock          = 1;       % for EACH hand
-        p.durRestBlock    = [2 3];   % [min max] in second, for the jitter
+        p.durRestBlock    = [1 2];   % [min max] in second, for the jitter
         p.nTrialPerBlock  = 2;       % second
+        p.durBlockHold    = 1;       % second
+        p.durBlockRest    = 1;       % second
     case 'RealisticDebug'
         p.nBlock          = 1;       % for EACH hand
-        p.durRestBlock    = [10 15]; % [min max] in second, for the jitter
-        p.nTrialPerBlock  = 4;       % second
 end
 
 

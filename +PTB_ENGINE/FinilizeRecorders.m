@@ -35,6 +35,6 @@ assignin('base','SR',S.SR)
 
 assignin('base','RT_produce',S.RT_produce)
 assignin('base','RT_rest'   ,S.RT_rest   )
-
+assignin('base','Stability' ,S.Stability )
 
 end % function

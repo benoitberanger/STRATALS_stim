@@ -199,6 +199,16 @@ Priority(0);
 % PsychPortAudio('Close');
 
 
+%% Behavior stats computation
+
+switch Task
+    case 'Calibration'
+        
+    case 'Nutcracker'
+        TASK.NUTCRACKER.STATS.Stability( S );
+end
+
+
 %% Generate SPM names onset durations
 
 [ names , onsets , durations ] = TASK.SPMnod();
