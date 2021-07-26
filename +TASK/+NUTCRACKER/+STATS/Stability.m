@@ -26,7 +26,7 @@ for evt = 1 : Stability.SampleCount
     ratio_over_under= (n_overshoot - n_undershoot) / n; % +++ => more overshoot, --- => more undershoot
     score_overshot  = mean(deviation(overshoot ));
     score_undershot = mean(deviation(undershoot));
-    score_stability = mean(abs(diff(deviation)));
+    score_stability = mean(abs(diff(deviation)/S.PTB.Video.IFI)); % average absolute speed
     
     Stability.Data(evt,Stability.Get('score_accuracy'  )) = score_accuracy;
     Stability.Data(evt,Stability.Get('ratio_over_under')) = ratio_over_under;
