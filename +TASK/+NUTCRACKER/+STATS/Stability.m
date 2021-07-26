@@ -2,7 +2,7 @@ function Stability( S )
 
 Stability = S.Stability;
 
-for evt = 1 : size(Stability.Data,1)
+for evt = 1 : Stability.SampleCount
     
     % get Side
     side_num = Stability.Get('side',evt);
