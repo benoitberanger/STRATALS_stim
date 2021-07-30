@@ -21,8 +21,8 @@ if ~isempty(figPtr) % Figure exists so brings it to the focus
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEBUG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if debug
-        clc
-        close(figPtr); %#ok<UNRCH>
+        clc %#ok<UNRCH>
+        close(figPtr); 
         GUI.VIEW.OpenGUI();
     end
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -87,10 +87,7 @@ else % Create the figure
         'Position',[p_sr.x p_sr.y p_sr.w p_sr.h],...
         'BackgroundColor',figureBGcolor);
     
-    p_sr.nbO       = 3; % Number of objects
-    p_sr.Ow        = 1/(p_sr.nbO + 1); % Object width
-    p_sr.countO    = 0; % Object counter
-    p_sr.xposO     = @(countO) p_sr.Ow/(p_sr.nbO+1)*countO + (countO-1)*p_sr.Ow;
+    p_sr = GUI.VIEW.Object_Xpos_Xwidth_dispatcher( p_sr , [1 1 1] , 0.05 );
     p_sr.yposOmain = 0.1;
     p_sr.hOmain    = 0.6;
     p_sr.yposOhdr  = 0.7;
@@ -100,10 +97,10 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % Edit : Subject ID
     
-    p_sr.countO = p_sr.countO + 1;
-    e_sid.x = p_sr.xposO(p_sr.countO);
+    p_sr.count = p_sr.count + 1;
+    e_sid.x = p_sr.xpos(p_sr.count);
     e_sid.y = p_sr.yposOmain ;
-    e_sid.w = p_sr.Ow;
+    e_sid.w = p_sr.xwidth(p_sr.count);
     e_sid.h = p_sr.hOmain;
     handles.edit_SubjectID = uicontrol(handles.uipanel_SubjectRun,...
         'Style','edit',...
@@ -117,9 +114,9 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % Text : Subject ID
     
-    t_sid.x = p_sr.xposO(p_sr.countO);
+    t_sid.x = p_sr.xpos(p_sr.count);
     t_sid.y = p_sr.yposOhdr ;
-    t_sid.w = p_sr.Ow;
+    t_sid.w = p_sr.xwidth(p_sr.count);
     t_sid.h = p_sr.hOhdr;
     handles.text_SubjectID = uicontrol(handles.uipanel_SubjectRun,...
         'Style','text',...
@@ -132,10 +129,10 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % Pushbutton : Check SubjectID data
     
-    p_sr.countO = p_sr.countO + 1;
-    b_csidd.x = p_sr.xposO(p_sr.countO);
+    p_sr.count = p_sr.count + 1;
+    b_csidd.x = p_sr.xpos(p_sr.count);
     b_csidd.y = p_sr.yposOmain;
-    b_csidd.w = p_sr.Ow;
+    b_csidd.w = p_sr.xwidth(p_sr.count);
     b_csidd.h = p_sr.hOmain;
     handles.pushbutton_Check_SubjectID_data = uicontrol(handles.uipanel_SubjectRun,...
         'Style','pushbutton',...
@@ -150,10 +147,10 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % Text : Last file name annoucer
     
-    p_sr.countO = p_sr.countO + 1;
-    t_lfna.x = p_sr.xposO(p_sr.countO);
+    p_sr.count = p_sr.count + 1;
+    t_lfna.x = p_sr.xpos(p_sr.count);
     t_lfna.y = p_sr.yposOhdr ;
-    t_lfna.w = p_sr.Ow;
+    t_lfna.w = p_sr.xwidth(p_sr.count);
     t_lfna.h = p_sr.hOhdr;
     handles.text_LastFileNameAnnouncer = uicontrol(handles.uipanel_SubjectRun,...
         'Style','text',...
@@ -167,9 +164,9 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % Text : Last file name
     
-    t_lfn.x = p_sr.xposO(p_sr.countO);
+    t_lfn.x = p_sr.xpos(p_sr.count);
     t_lfn.y = p_sr.yposOmain ;
-    t_lfn.w = p_sr.Ow;
+    t_lfn.w = p_sr.xwidth(p_sr.count);
     t_lfn.h = p_sr.hOmain;
     handles.text_LastFileName = uicontrol(handles.uipanel_SubjectRun,...
         'Style','text',...
@@ -195,19 +192,15 @@ else % Create the figure
         'Position',[p_sm.x p_sm.y p_sm.w p_sm.h],...
         'BackgroundColor',figureBGcolor);
     
-    p_sm.nbO    = 2; % Number of objects
-    p_sm.Ow     = 1/(p_sm.nbO + 1); % Object width
-    p_sm.countO = 0; % Object counter
-    p_sm.xposO  = @(countO) p_sm.Ow/(p_sm.nbO+1)*countO + (countO-1)*p_sm.Ow;
-    
+    p_sm = GUI.VIEW.Object_Xpos_Xwidth_dispatcher( p_sm , [1 1] , 0.25 );
     
     % ---------------------------------------------------------------------
     % RadioButton : Save Data
     
-    p_sm.countO = p_sm.countO + 1;
-    r_sd.x   = p_sm.xposO(p_sm.countO);
+    p_sm.count = p_sm.count + 1;
+    r_sd.x   = p_sm.xpos(p_sm.count);
     r_sd.y   = 0.1 ;
-    r_sd.w   = p_sm.Ow;
+    r_sd.w   = p_sm.w;
     r_sd.h   = 0.8;
     r_sd.tag = 'radiobutton_SaveData';
     handles.(r_sd.tag) = uicontrol(handles.uipanel_SaveMode,...
@@ -224,10 +217,10 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % RadioButton : No save
     
-    p_sm.countO = p_sm.countO + 1;
-    r_ns.x   = p_sm.xposO(p_sm.countO);
+    p_sm.count = p_sm.count + 1;
+    r_ns.x   = p_sm.xpos(p_sm.count);
     r_ns.y   = 0.1 ;
-    r_ns.w   = p_sm.Ow;
+    r_ns.w   = p_sm.w;
     r_ns.h   = 0.8;
     r_ns.tag = 'radiobutton_NoSave';
     handles.(r_ns.tag) = uicontrol(handles.uipanel_SaveMode,...
@@ -319,19 +312,19 @@ else % Create the figure
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     p_el_up.nbO    = 6; % Number of objects
-    p_el_up.Ow     = 1/(p_el_up.nbO + 1); % Object width
-    p_el_up.countO = 0; % Object counter
-    p_el_up.xposO  = @(countO) p_el_up.Ow/(p_el_up.nbO+1)*countO + (countO-1)*p_el_up.Ow;
+    p_el_up.w     = 1/(p_el_up.nbO + 1); % Object width
+    p_el_up.count = 0; % Object counter
+    p_el_up.xpos  = @(count) p_el_up.w/(p_el_up.nbO+1)*count + (count-1)*p_el_up.w;
     p_el_up.y      = 0.6;
     p_el_up.h      = 0.3;
     
     % ---------------------------------------------------------------------
     % RadioButton : Eyelink ON
     
-    p_el_up.countO = p_el_up.countO + 1;
-    r_elon.x   = p_el_up.xposO(p_el_up.countO);
+    p_el_up.count = p_el_up.count + 1;
+    r_elon.x   = p_el_up.xpos(p_el_up.count);
     r_elon.y   = p_el_up.y ;
-    r_elon.w   = p_el_up.Ow;
+    r_elon.w   = p_el_up.w;
     r_elon.h   = p_el_up.h;
     r_elon.tag = 'radiobutton_EyelinkOn';
     handles.(r_elon.tag) = uicontrol(handles.uipanel_EyelinkMode,...
@@ -348,10 +341,10 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % RadioButton : Eyelink OFF
     
-    p_el_up.countO = p_el_up.countO + 1;
-    r_eloff.x   = p_el_up.xposO(p_el_up.countO);
+    p_el_up.count = p_el_up.count + 1;
+    r_eloff.x   = p_el_up.xpos(p_el_up.count);
     r_eloff.y   = p_el_up.y ;
-    r_eloff.w   = p_el_up.Ow;
+    r_eloff.w   = p_el_up.w;
     r_eloff.h   = p_el_up.h;
     r_eloff.tag = 'radiobutton_EyelinkOff';
     handles.(r_eloff.tag) = uicontrol(handles.uipanel_EyelinkMode,...
@@ -368,10 +361,10 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % Checkbox : Parallel port
     
-    p_el_up.countO = p_el_up.countO + 1;
-    c_pp.x = p_el_up.xposO(p_el_up.countO);
+    p_el_up.count = p_el_up.count + 1;
+    c_pp.x = p_el_up.xpos(p_el_up.count);
     c_pp.y = p_el_up.y ;
-    c_pp.w = p_el_up.Ow*2;
+    c_pp.w = p_el_up.w*2;
     c_pp.h = p_el_up.h;
     handles.checkbox_ParPort = uicontrol(handles.uipanel_EyelinkMode,...
         'Style','checkbox',...
@@ -390,9 +383,9 @@ else % Create the figure
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     p_el_dw.nbO    = 4.5; % Number of objects
-    p_el_dw.Ow     = 1/(p_el_dw.nbO + 1); % Object width
-    p_el_dw.countO = 0; % Object counter
-    p_el_dw.xposO  = @(countO) p_el_dw.Ow/(p_el_dw.nbO+1)*countO + (countO-1)*p_el_dw.Ow;
+    p_el_dw.w     = 1/(p_el_dw.nbO + 1); % Object width
+    p_el_dw.count = 0; % Object counter
+    p_el_dw.xpos  = @(count) p_el_dw.w/(p_el_dw.nbO+1)*count + (count-1)*p_el_dw.w;
     p_el_dw.y      = 0.1;
     p_el_dw.h      = 0.4 ;
     
@@ -400,10 +393,10 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % Pushbutton : Eyelink Initialize
     
-    p_el_dw.countO = p_el_dw.countO + 1;
-    b_init.x = p_el_dw.xposO(p_el_dw.countO);
+    p_el_dw.count = p_el_dw.count + 1;
+    b_init.x = p_el_dw.xpos(p_el_dw.count);
     b_init.y = p_el_dw.y ;
-    b_init.w = p_el_dw.Ow;
+    b_init.w = p_el_dw.w;
     b_init.h = p_el_dw.h;
     handles.pushbutton_Initialize = uicontrol(handles.uipanel_EyelinkMode,...
         'Style','pushbutton',...
@@ -416,10 +409,10 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % Pushbutton : Eyelink IsConnected
     
-    p_el_dw.countO = p_el_dw.countO + 1;
-    b_isco.x = p_el_dw.xposO(p_el_dw.countO);
+    p_el_dw.count = p_el_dw.count + 1;
+    b_isco.x = p_el_dw.xpos(p_el_dw.count);
     b_isco.y = p_el_dw.y ;
-    b_isco.w = p_el_dw.Ow;
+    b_isco.w = p_el_dw.w;
     b_isco.h = p_el_dw.h;
     handles.pushbutton_IsConnected = uicontrol(handles.uipanel_EyelinkMode,...
         'Style','pushbutton',...
@@ -433,10 +426,10 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % Pushbutton : Eyelink Calibration
     
-    p_el_dw.countO = p_el_dw.countO + 1;
-    b_cal.x   = p_el_dw.xposO(p_el_dw.countO);
+    p_el_dw.count = p_el_dw.count + 1;
+    b_cal.x   = p_el_dw.xpos(p_el_dw.count);
     b_cal.y   = p_el_dw.y ;
-    b_cal.w   = p_el_dw.Ow;
+    b_cal.w   = p_el_dw.w;
     b_cal.h   = p_el_dw.h;
     b_cal.tag = 'pushbutton_EyelinkCalibration';
     handles.(b_cal.tag) = uicontrol(handles.uipanel_EyelinkMode,...
@@ -452,10 +445,10 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % Pushbutton : Download EL files according to the SubjectID
     
-    p_el_dw.countO = p_el_dw.countO + 1;
-    b_cal.x   = p_el_dw.xposO(p_el_dw.countO);
+    p_el_dw.count = p_el_dw.count + 1;
+    b_cal.x   = p_el_dw.xpos(p_el_dw.count);
     b_cal.y   = p_el_dw.y ;
-    b_cal.w   = p_el_dw.Ow*1.5;
+    b_cal.w   = p_el_dw.w*1.5;
     b_cal.h   = p_el_dw.h;
     b_cal.tag = 'pushbutton_DownloadELfiles';
     handles.(b_cal.tag) = uicontrol(handles.uipanel_EyelinkMode,...
@@ -473,7 +466,7 @@ else % Create the figure
     
     b_fsd.x = c_pp.x + c_pp.h;
     b_fsd.y = p_el_up.y ;
-    b_fsd.w = p_el_dw.Ow*1.50;
+    b_fsd.w = p_el_dw.w*1.50;
     b_fsd.h = p_el_dw.h;
     handles.pushbutton_ForceShutDown = uicontrol(handles.uipanel_EyelinkMode,...
         'Style','pushbutton',...
@@ -563,19 +556,15 @@ else % Create the figure
         'Position',[p_device.x p_device.y p_device.w p_device.h],...
         'BackgroundColor',figureBGcolor);
     
-    p_device.nbO    = 2; % Number of objects
-    p_device.Ow     = 1/(p_device.nbO + 1); % Object width
-    p_device.countO = 0; % Object counter
-    p_device.xposO  = @(countO) p_device.Ow/(p_device.nbO+1)*countO + (countO-1)*p_device.Ow;
-    
+    p_device = GUI.VIEW.Object_Xpos_Xwidth_dispatcher( p_device , [1 1] , 0.25 );
     
     % ---------------------------------------------------------------------
     % RadioButton : Nutcracker == joystick IO
     
-    p_device.countO = p_device.countO + 1;
-    r_nut.x   = p_device.xposO(p_device.countO);
+    p_device.count = p_device.count + 1;
+    r_nut.x   = p_device.xpos(p_device.count);
     r_nut.y   = 0.1 ;
-    r_nut.w   = p_device.Ow;
+    r_nut.w   = p_device.w;
     r_nut.h   = 0.8;
     r_nut.tag = 'radiobutton_nutcracker';
     handles.(r_nut.tag) = uicontrol(handles.uipanel_Device,...
@@ -591,10 +580,10 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % RadioButton : Mouse (for debugging)
     
-    p_device.countO = p_device.countO + 1;
-    r_mouse.x   = p_device.xposO(p_device.countO);
+    p_device.count = p_device.count + 1;
+    r_mouse.x   = p_device.xpos(p_device.count);
     r_mouse.y   = 0.1 ;
-    r_mouse.w   = p_device.Ow;
+    r_mouse.w   = p_device.w;
     r_mouse.h   = 0.8;
     r_mouse.tag = 'radiobutton_mouse';
     handles.(r_mouse.tag) = uicontrol(handles.uipanel_Device,...
@@ -622,19 +611,15 @@ else % Create the figure
         'Position',[p_op.x p_op.y p_op.w p_op.h],...
         'BackgroundColor',figureBGcolor);
     
-    p_op.nbO    = 3; % Number of objects
-    p_op.Ow     = 1/(p_op.nbO + 1); % Object width
-    p_op.countO = 0; % Object counter
-    p_op.xposO  = @(countO) p_op.Ow/(p_op.nbO+1)*countO + (countO-1)*p_op.Ow;
-    
+    p_op = GUI.VIEW.Object_Xpos_Xwidth_dispatcher( p_op , [1 1 1] , 0.1 );
     
     % ---------------------------------------------------------------------
     % RadioButton : Acquisition
     
-    p_op.countO = p_op.countO + 1;
-    r_aq.x = p_op.xposO(p_op.countO);
+    p_op.count = p_op.count + 1;
+    r_aq.x = p_op.xpos(p_op.count);
     r_aq.y = 0.1 ;
-    r_aq.w = p_op.Ow;
+    r_aq.w = p_op.w;
     r_aq.h = 0.8;
     r_aq.tag = 'radiobutton_Acquisition';
     handles.(r_aq.tag) = uicontrol(handles.uipanel_OperationMode,...
@@ -651,10 +636,10 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % RadioButton : FastDebug
     
-    p_op.countO = p_op.countO + 1;
-    r_fd.x   = p_op.xposO(p_op.countO);
+    p_op.count = p_op.count + 1;
+    r_fd.x   = p_op.xpos(p_op.count);
     r_fd.y   = 0.1 ;
-    r_fd.w   = p_op.Ow;
+    r_fd.w   = p_op.w;
     r_fd.h   = 0.8;
     r_fd.tag = 'radiobutton_FastDebug';
     handles.radiobutton_FastDebug = uicontrol(handles.uipanel_OperationMode,...
@@ -671,10 +656,10 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % RadioButton : RealisticDebug
     
-    p_op.countO = p_op.countO + 1;
-    r_rd.x   = p_op.xposO(p_op.countO);
+    p_op.count = p_op.count + 1;
+    r_rd.x   = p_op.xpos(p_op.count);
     r_rd.y   = 0.1 ;
-    r_rd.w   = p_op.Ow;
+    r_rd.w   = p_op.w;
     r_rd.h   = 0.8;
     r_rd.tag = 'radiobutton_RealisticDebug';
     handles.(r_rd.tag) = uicontrol(handles.uipanel_OperationMode,...
@@ -703,19 +688,15 @@ else % Create the figure
         'Position',[p_movie.x p_movie.y p_movie.w p_movie.h],...
         'BackgroundColor',figureBGcolor);
     
-    p_movie.nbO    = 2; % Number of objects
-    p_movie.Ow     = 1/(p_movie.nbO + 1); % Object width
-    p_movie.countO = 0; % Object counter
-    p_movie.xposO  = @(countO) p_movie.Ow/(p_movie.nbO+1)*countO + (countO-1)*p_movie.Ow;
-    
+    p_movie = GUI.VIEW.Object_Xpos_Xwidth_dispatcher( p_movie , [1 1] , 0.25 );
     
     % ---------------------------------------------------------------------
     % RadioButton : Nutcracker == joystick IO
     
-    p_movie.countO = p_movie.countO + 1;
-    r_movie_off.x   = p_movie.xposO(p_movie.countO);
+    p_movie.count = p_movie.count + 1;
+    r_movie_off.x   = p_movie.xpos(p_movie.count);
     r_movie_off.y   = 0.1 ;
-    r_movie_off.w   = p_movie.Ow;
+    r_movie_off.w   = p_movie.w;
     r_movie_off.h   = 0.8;
     r_movie_off.tag = 'radiobutton_movie_off';
     handles.(r_movie_off.tag) = uicontrol(handles.uipanel_Movie,...
@@ -731,10 +712,10 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % RadioButton : Mouse (for debugging)
     
-    p_movie.countO = p_movie.countO + 1;
-    r_movie_on.x   = p_movie.xposO(p_movie.countO);
+    p_movie.count = p_movie.count + 1;
+    r_movie_on.x   = p_movie.xpos(p_movie.count);
     r_movie_on.y   = 0.1 ;
-    r_movie_on.w   = p_movie.Ow;
+    r_movie_on.w   = p_movie.w;
     r_movie_on.h   = 0.8;
     r_movie_on.tag = 'radiobutton_movie_on';
     handles.(r_movie_on.tag) = uicontrol(handles.uipanel_Movie,...
