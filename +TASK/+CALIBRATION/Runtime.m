@@ -14,15 +14,17 @@ try
     
     %% Initialize stim objects
     
-    FIXATIONCROSS = TASK.NUTCRACKER.PREPARE.FixationCross();
-    HAND          = TASK.NUTCRACKER.PREPARE.Hand         ();
-    TEXT          = TASK.CALIBRATION.PREPARE.Text();
+    FIXATIONCROSS = TASK.NUTCRACKER. PREPARE.FixationCross();
+    CURSOR        = TASK.NUTCRACKER. PREPARE.Cursor       ();
+    HAND          = TASK.NUTCRACKER. PREPARE.Hand         ();
+    TEXT          = TASK.CALIBRATION.PREPARE.Text         ();
     
     
     %% Shortcuts
     
     ER          = S.ER;
     SR          = S.SR;
+    Stability   = S.Stability;
     wPtr        = S.PTB.Video.wPtr;
     slack       = S.PTB.Video.slack;
     ESCAPE      = S.Keybinds.Stop_Escape;
@@ -104,7 +106,7 @@ try
                 ER.AddEvent({evt_name real_onset-StartTime [] EP.Data{evt, 4:end}});
                 
                 % While loop for most of the duration of the event, so we can press ESCAPE
-                next_onset = prev_onset + evt_duration - slack;
+                next_onset = StartTime + EP.Data{evt+1,2} - slack;
                 while secs < next_onset
                     
                     [keyIsDown, secs, keyCode] = KbCheck();
@@ -123,8 +125,72 @@ try
                     CURSOR.Update();
                     SR.AddSample([ flip_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                     
+                end % while
+                
+                
+            case {'Trial_L_Produce', 'Trial_R_Produce'} % -----------------
+                
+                % Logs
+                fprintf('block=%d   trial=%d   side=%5s  \n', block, trial, side)
+                
+                % Draw
+                TEXT.Draw( sprintf( '%0.1f', evt_duration ) );
+                switch side
+                    case 'Left'
+                        HAND.Draw('Left' ,'Active' );
+                        HAND.Draw('Right','Passive');
+                    case 'Right'
+                        HAND.Draw('Left' ,'Passive');
+                        HAND.Draw('Right','Active' );
+                end
+                CURSOR.Update();
+                if S.MovieMode, PTB_ENGINE.VIDEO.MOVIE.AddFrame(wPtr,moviePtr); end
+                
+                % Flip at the right moment
+                real_onset = Screen('Flip', wPtr);
+                prev_onset = real_onset;
+                SR.AddSample([ real_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
+                
+                % Stability
+                sample_start = SR.SampleCount;
+                
+                % Save onset
+                ER.AddEvent({evt_name real_onset-StartTime [] EP.Data{evt, 4:end}});
+                
+                % While loop for most of the duration of the event, so we can press ESCAPE
+                next_onset = StartTime + EP.Data{evt+1,2} - slack;
+                while secs < next_onset
+                    [keyIsDown, secs, keyCode] = KbCheck();
+                    if keyIsDown
+                        EXIT = keyCode(ESCAPE);
+                        if EXIT, break, end
+                    end
+                    
+                    % Draw
+                    TEXT.Draw( sprintf( '%0.1f', next_onset-secs ) );
+                    switch side
+                        case 'Left'
+                            HAND.Draw('Left' ,'Active' );
+                            HAND.Draw('Right','Passive');
+                        case 'Right'
+                            HAND.Draw('Left' ,'Passive');
+                            HAND.Draw('Right','Active' );
+                    end
+                    CURSOR.Update();
+                    if S.MovieMode, PTB_ENGINE.VIDEO.MOVIE.AddFrame(wPtr,moviePtr); end
+                    
+                    % Flip
+                    flip_onset = Screen('Flip', wPtr);
+                    SR.AddSample([ flip_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                     
                 end % while
+                
+                % Stability
+                sample_stop = SR.SampleCount;
+                data        = zeros(size(Stability.Header));
+                data(1:6)   = [prev_onset-StartTime block trial side_num sample_start sample_stop];
+                Stability.AddSample(data); % the rest will b filled later, in post-processing
+                
                 
             otherwise % ---------------------------------------------------
                 

@@ -11,6 +11,13 @@ try
     % 'names' for SPM
     switch S.Task
         
+        case 'Calibration'
+            names = {
+                'BlockRest'
+                'Trial_L_Produce'
+                'Trial_R_Produce'
+                };
+        
         case 'Nutcracker'
             names = {
                 'BlockRest'
