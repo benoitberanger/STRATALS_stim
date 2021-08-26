@@ -16,19 +16,19 @@ p = struct; % This structure will contain all task specific parameters, such as 
 %% Timings
 
 p.nBlock          = 3;       % for EACH hand
-p.durRestBlock    = [5 5];  % [min max] in second, for the jitter
+p.durRestBlock    = [10 10];  % [min max] in second, for the jitter
 p.nTrialPerBlock  = 1;       % second
 
-p.durBlockProduce = 3;       % second ARBITRARY => subject dependent
+p.durBlockProduce = 5;       % second
 
 switch OperationMode
     case 'Acquisition'
     case 'FastDebug'
         p.nBlock          = 2;       % for EACH hand
-        p.durRestBlock    = [1 1 ];  % [min max] in second, for the jitter
+        p.durRestBlock    = [1 1];  % [min max] in second, for the jitter
         p.nTrialPerBlock  = 1;       % second
         
-        p.durBlockProduce = 2;       % second ARBITRARY => subject dependent
+        p.durBlockProduce = 2;       % second
     case 'RealisticDebug'
         p.nBlock          = 1;       % for EACH hand
 end
@@ -39,9 +39,10 @@ end
 
 p = TASK.Graphics( p );
 
-p.Text.Size     = 0.1;           % Size_px = ScreenY_px * Size
-p.Text.Color    = [255 255 255]; % [R G B a], from 0 to 255
-p.Text.Position = [0.50 0.50];   % Position_px = [ScreenX_px ScreenY_px] .* Position
+p.Text.Size          = 0.2;           % Size_px = ScreenY_px * Size
+p.Text.color_Active  = [255 255 255]; % [R G B a], from 0 to 255
+p.Text.color_Passive = [000 000 000]; % [R G B a], from 0 to 255
+p.Text.Position      = [0.50 0.50];   % Position_px = [ScreenX_px ScreenY_px] .* Position
 
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,13 +1,10 @@
-function Draw( self, content )
+function Draw( self, content, color )
 
-if nargin > 1
-    self.content = content;
-end
+self.content = content;
 
 Screen('TextSize' , self.wPtr, self.size );
-Screen('TextColor', self.wPtr, self.color);
 
 %[nx, ny, textbounds, wordbounds] = DrawFormattedText(win, tstring [, sx][, sy][, color][, wrapat][, flipHorizontal][, flipVertical][, vSpacing][, righttoleft][, winRect])
-DrawFormattedText(self.wPtr, self.content, 'center', 'center', self.color, [], [], [], [], [], self.rect);
+DrawFormattedText(self.wPtr, self.content, 'center', 'center', self.(['color_' color]), [], [], [], [], [], self.rect);
 
 end % function

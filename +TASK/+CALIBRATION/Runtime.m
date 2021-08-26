@@ -15,7 +15,7 @@ try
     %% Initialize stim objects
     
     FIXATIONCROSS = TASK.NUTCRACKER. PREPARE.FixationCross();
-    CURSOR        = TASK.NUTCRACKER. PREPARE.Cursor       ();
+    CURSOR        = TASK.NUTCRACKER. PREPARE.Cursor       (); % here the object is used only for the device data query
     HAND          = TASK.NUTCRACKER. PREPARE.Hand         ();
     TEXT          = TASK.CALIBRATION.PREPARE.Text         ();
     
@@ -90,7 +90,7 @@ try
             case 'BlockRest' % --------------------------------------------
                 
                 % Draw
-                FIXATIONCROSS.Draw();
+                TEXT.Draw( sprintf( '%d', round(evt_duration) ), 'Passive' );
                 HAND.Draw('Left' ,'Passive');
                 HAND.Draw('Right','Passive');
                 if S.MovieMode, PTB_ENGINE.VIDEO.MOVIE.AddFrame(wPtr,moviePtr); end
@@ -116,7 +116,9 @@ try
                     end
                     
                     % Draw
-                    FIXATIONCROSS.Draw();
+                    val = next_onset-secs;
+                    if val < 0, val = 0; end % happens at the last iteration of the loop
+                    TEXT.Draw( sprintf( '%d', round(val) ), 'Passive' );
                     HAND.Draw('Left' ,'Passive');
                     HAND.Draw('Right','Passive');
                     if S.MovieMode, PTB_ENGINE.VIDEO.MOVIE.AddFrame(wPtr,moviePtr); end
@@ -134,7 +136,7 @@ try
                 fprintf('block=%d   trial=%d   side=%5s  \n', block, trial, side)
                 
                 % Draw
-                TEXT.Draw( sprintf( '%0.1f', evt_duration ) );
+                TEXT.Draw( sprintf( '%d', round(evt_duration) ), 'Active' );
                 switch side
                     case 'Left'
                         HAND.Draw('Left' ,'Active' );
@@ -167,7 +169,9 @@ try
                     end
                     
                     % Draw
-                    TEXT.Draw( sprintf( '%0.1f', next_onset-secs ) );
+                    val = next_onset-secs;
+                    if val < 0, val = 0; end % happens at the last iteration of the loop
+                    TEXT.Draw( sprintf( '%d', round(val) ), 'Active' );
                     switch side
                         case 'Left'
                             HAND.Draw('Left' ,'Active' );
