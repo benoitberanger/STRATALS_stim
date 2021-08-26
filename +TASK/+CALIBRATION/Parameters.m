@@ -15,24 +15,20 @@ p = struct; % This structure will contain all task specific parameters, such as 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Timings
 
-p.nBlock          = 5;       % for EACH hand
-p.durRestBlock    = [10 15]; % [min max] in second, for the jitter
-p.nTrialPerBlock  = 4;       % second
+p.nBlock          = 3;       % for EACH hand
+p.durRestBlock    = [5 5];  % [min max] in second, for the jitter
+p.nTrialPerBlock  = 1;       % second
 
-p.durBlockProduce = 2;       % second ARBITRARY => subject dependent
-p.durBlockHold    = 4;       % second
-p.durBlockRest    = 2;       % second
-
-p.thresholdRT     = 0.1;     % from 0 to 1 => cursor value to define RT
+p.durBlockProduce = 3;       % second ARBITRARY => subject dependent
 
 switch OperationMode
     case 'Acquisition'
     case 'FastDebug'
-        p.nBlock          = 1;       % for EACH hand
-        p.durRestBlock    = [1 2];   % [min max] in second, for the jitter
-        p.nTrialPerBlock  = 2;       % second
-        p.durBlockHold    = 1;       % second
-        p.durBlockRest    = 1;       % second
+        p.nBlock          = 2;       % for EACH hand
+        p.durRestBlock    = [1 1 ];  % [min max] in second, for the jitter
+        p.nTrialPerBlock  = 1;       % second
+        
+        p.durBlockProduce = 2;       % second ARBITRARY => subject dependent
     case 'RealisticDebug'
         p.nBlock          = 1;       % for EACH hand
 end
@@ -43,6 +39,10 @@ end
 
 p = TASK.Graphics( p );
 
+p.Text.Size     = 0.1;           % Size_px = ScreenY_px * Size
+p.Text.Color    = [255 255 255]; % [R G B a], from 0 to 255
+p.Text.Position = [0.50 0.50];   % Position_px = [ScreenX_px ScreenY_px] .* Position
+
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ... TO HERE
@@ -52,12 +52,8 @@ p = TASK.Graphics( p );
 %% Define a planning <--- paradigme
 
 % Randomize Left vs Right
-while 1
-    blockOrder = Shuffle([ ones(1,p.nBlock)*1 ones(1,p.nBlock)*2 ]);
-    if ~any(diff(diff(blockOrder)) == 0)%  maximum 2 blocks in a row
-        break
-    end
-end
+blockOrder = repmat([1 2], [1 p.nBlock]);
+if rand > 0.5, blockOrder = circshift(blockOrder,1); end
 
 % Randomize durRestBlock
 durRestBlock = linspace( p.durRestBlock(1), p.durRestBlock(2), p.nBlock*2 );
@@ -87,8 +83,6 @@ for iBlock = 1 : p.nBlock * 2
             for n = 1 : p.nTrialPerBlock
                 iTrial = iTrial + 1;
                 EP.AddPlanning({ 'Trial_L_Produce' NextOnset(EP) p.durBlockProduce iBlock iTrial 'Left'})
-                EP.AddPlanning({ 'Trial_L_Hold'    NextOnset(EP) p.durBlockHold    iBlock iTrial 'Left'})
-                EP.AddPlanning({ 'Trial_L_Rest'    NextOnset(EP) p.durBlockRest    iBlock iTrial 'Left'})
             end
             
         case 2
@@ -98,8 +92,6 @@ for iBlock = 1 : p.nBlock * 2
             for n = 1 : p.nTrialPerBlock
                 iTrial = iTrial + 1;
                 EP.AddPlanning({ 'Trial_R_Produce' NextOnset(EP) p.durBlockProduce iBlock iTrial 'Right'})
-                EP.AddPlanning({ 'Trial_R_Hold'    NextOnset(EP) p.durBlockHold    iBlock iTrial 'Right'})
-                EP.AddPlanning({ 'Trial_R_Rest'    NextOnset(EP) p.durBlockRest    iBlock iTrial 'Right'})
             end
             
     end

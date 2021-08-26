@@ -122,7 +122,7 @@ if EyelinkMode
     assert( SaveMode ,' \n ---> Save mode should be turned ON when using Eyelink <--- \n ')
     
     % Eyelink connected ?
-    Eyelink.IsConnected
+    Eyelink.IsConnected();
     
     % Generate the Eyelink filename
     eyelink_max_finename = 8;                                                       % Eyelink filename must be 8 char or less...
@@ -170,10 +170,10 @@ PTB_ENGINE.KEYBOARD.Parameters(); % <= here is all paramters
 EchoStart(Task)
 
 switch Task
-    case 'Calibration'
-        
-    case 'Nutcracker' % TASK.NUTCRACKER.Parameters <= here is all paramters
-        TASK.NUTCRACKER.Runtime(); % execution of the task
+    case 'Calibration'              % TASK.CALIBRATION.Parameters <= here is all paramters
+        TASK.CALIBRATION.Runtime(); % execution of the task
+    case 'Nutcracker'               % TASK.NUTCRACKER.Parameters <= here is all paramters
+        TASK.NUTCRACKER.Runtime();  % execution of the task
     case 'EyelinkCalibration'
         Eyelink.Calibration(S.PTB.Video.wPtr);
         S.TaskData.ER.Data = {};
@@ -200,6 +200,8 @@ Priority(0);
 
 
 %% Behavior stats computation
+% Here "S" is a paramter, so in case we modify the stats computation,
+% its easy to re-compute : load old file and call the function on it.
 
 switch Task
     case 'Calibration'
