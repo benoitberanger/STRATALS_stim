@@ -26,11 +26,15 @@ switch event.Source.Value
         
     case 0
         
-        stop  ( handles.timer );
-        delete( handles.timer );
+        if isfield(handles, 'timer') && isvalid(handles.timer)
+            stop  ( handles.timer );
+            delete( handles.timer );
+        end
         clear joymex2
         hObject.BackgroundColor = handles.buttonBGcolor;
+        hObject.Value = 0; % enforce it, useful when other functions call this function
         cla(handles.axes_Joystick)
+        
         
 end
 

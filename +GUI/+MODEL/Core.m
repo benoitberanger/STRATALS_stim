@@ -17,6 +17,11 @@ rng('default')
 rng('shuffle')
 
 
+%% Stop joystick display if running
+
+GUI.CONTROLLER.stopJoystickStream( handles );
+
+
 %% Initialize the main structure
 
 % NOTES : Here I made the choice of using a "global" variable, because it
@@ -39,17 +44,6 @@ S.Task = Task;
 
 SaveMode   = GUI.CONTROLLER.getSaveMode( handles );
 S.SaveMode = SaveMode;
-
-
-%% Device mode selection
-
-Device = GUI.CONTROLLER.getDevice( handles );
-S.Device = Device;
-
-switch Device
-    case 'Nutcracker'
-        joymex2('open',0);
-end
 
 
 %% Mode selection
@@ -91,6 +85,17 @@ S.RunNumber     = RunNumber;
 S.DataPath      = dirpath_SubjectID;
 S.DataFile      = DataFile;
 S.DataFileName  = DataFileName;
+
+
+%% Device mode selection
+
+Device = GUI.CONTROLLER.getDevice( handles );
+S.Device = Device;
+
+switch Device
+    case 'Nutcracker'
+        joymex2('open',0);
+end
 
 
 %% Quick warning
