@@ -22,7 +22,7 @@ if ~isempty(figPtr) % Figure exists so brings it to the focus
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEBUG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     if debug
         clc %#ok<UNRCH>
-        close(figPtr); 
+        close(figPtr);
         GUI.VIEW.OpenGUI();
     end
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -62,7 +62,7 @@ else % Create the figure
     
     panelProp.interWidth = 0.01;
     panelProp.vect  = ...
-        [0.5 0.75 0.75 1 1 0.75 1.5 ]; % relative proportions of each panel, from bottom to top
+        [0.5 0.75 2 1.5 1 0.75 1.5 ]; % relative proportions of each panel, from bottom to top
     
     panelProp.vectLength    = length(panelProp.vect);
     panelProp.vectTotal     = sum(panelProp.vect);
@@ -556,16 +556,13 @@ else % Create the figure
         'Position',[p_device.x p_device.y p_device.w p_device.h],...
         'BackgroundColor',figureBGcolor);
     
-    p_device = GUI.VIEW.Object_Xpos_Xwidth_dispatcher( p_device , [1 1] , 0.25 );
-    
     % ---------------------------------------------------------------------
     % RadioButton : Nutcracker == joystick IO
     
-    p_device.count = p_device.count + 1;
-    r_nut.x   = p_device.xpos(p_device.count);
-    r_nut.y   = 0.1 ;
-    r_nut.w   = p_device.w;
-    r_nut.h   = 0.8;
+    r_nut.x   = 0.05;
+    r_nut.y   = 0.70;
+    r_nut.w   = 0.20;
+    r_nut.h   = 0.10;
     r_nut.tag = 'radiobutton_nutcracker';
     handles.(r_nut.tag) = uicontrol(handles.uipanel_Device,...
         'Style','radiobutton'                             ,...
@@ -580,11 +577,10 @@ else % Create the figure
     % ---------------------------------------------------------------------
     % RadioButton : Mouse (for debugging)
     
-    p_device.count = p_device.count + 1;
-    r_mouse.x   = p_device.xpos(p_device.count);
-    r_mouse.y   = 0.1 ;
-    r_mouse.w   = p_device.w;
-    r_mouse.h   = 0.8;
+    r_mouse.x   = r_nut.x;
+    r_mouse.y   = 1 - r_nut.y;
+    r_mouse.w   = r_nut.w;
+    r_mouse.h   = r_nut.h;
     r_mouse.tag = 'radiobutton_mouse';
     handles.(r_mouse.tag) = uicontrol(handles.uipanel_Device,...
         'Style','radiobutton'                               ,...
@@ -594,6 +590,46 @@ else % Create the figure
         'HorizontalAlignment','Center'                      ,...
         'Tag',r_mouse.tag                                   ,...
         'BackgroundColor',figureBGcolor                     );
+    
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Panel : Joystick online display
+    
+    p_joystick.x = r_nut.x+r_nut.w;
+    p_joystick.y = 0.05;
+    p_joystick.w = 1 - p_joystick.x - r_nut.x;
+    p_joystick.h = 0.95;
+    handles.uipanel_Joystick = uipanel(handles.uipanel_Device,...
+        'Title','Joystick',...
+        'Units', 'Normalized',...
+        'Position',[ p_joystick.x p_joystick.y p_joystick.w p_joystick.h ],...
+        'BackgroundColor',figureBGcolor);
+    
+    
+    b_stream.x   = 0.10;
+    b_stream.w   = 0.20;
+    b_stream.y   = 0.20;
+    b_stream.h   = 1 - b_stream.y*2;
+    b_stream.tag = 'pushbutton_Stream';
+    handles.(b_Nut.tag) = uicontrol(handles.uipanel_Joystick,...
+        'Style'          , 'toggle'                         ,...
+        'Units'          , 'Normalized'                     ,...
+        'Position'       , [b_stream.x b_stream.y b_stream.w b_stream.h],...
+        'String'         , 'Display'                        ,...
+        'BackgroundColor', buttonBGcolor                    ,...
+        'Tag'            , b_stream.tag                     ,...
+        'Callback'       , @GUI.VIEW.Callback.toggle_JoystickStream,...
+        'TooltipString'  , 'Live display of the joystick values');
+    
+    
+    a_joystick.x   = b_stream.x*2 + b_stream.w;
+    a_joystick.w   = 1 - a_joystick.x - b_stream.x;
+    a_joystick.y   = b_stream.y;
+    a_joystick.h   = 1- a_joystick.y;
+    
+    handles.axes_Joystick = axes(handles.uipanel_Joystick,...
+        'Units'          , 'Normalized'                     ,...
+        'Position'       , [a_joystick.x a_joystick.y a_joystick.w a_joystick.h]);
     
     
     %% Panel : Operation mode
