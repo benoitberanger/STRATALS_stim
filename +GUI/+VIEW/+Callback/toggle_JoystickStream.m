@@ -34,7 +34,7 @@ switch event.Source.Value
         hObject.BackgroundColor = handles.buttonBGcolor;
         hObject.Value = 0; % enforce it, useful when other functions call this function
         cla(handles.axes_Joystick)
-        
+        GUI.VIEW.setAxesJoystickStream( handles ); % wrapper, because used several times
         
 end
 

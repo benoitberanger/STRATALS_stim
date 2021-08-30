@@ -544,7 +544,7 @@ else % Create the figure
     %% Panel : device input
     
     p_device.x = panelProp.xposP;
-    p_device.w = panelProp.wP;
+    p_device.w = 0.3;
     
     panelProp.countP = panelProp.countP - 1;
     p_device.y = panelProp.yposP(panelProp.countP);
@@ -554,14 +554,15 @@ else % Create the figure
         'Title','Device selection',...
         'Units', 'Normalized',...
         'Position',[p_device.x p_device.y p_device.w p_device.h],...
-        'BackgroundColor',figureBGcolor);
+        'BackgroundColor',figureBGcolor,...
+        'SelectionChangeFcn',@GUI.VIEW.SelectionChangeFcn.uipanel_Device);
     
     % ---------------------------------------------------------------------
     % RadioButton : Nutcracker == joystick IO
     
     r_nut.x   = 0.05;
     r_nut.y   = 0.70;
-    r_nut.w   = 0.20;
+    r_nut.w   = 0.90;
     r_nut.h   = 0.10;
     r_nut.tag = 'radiobutton_nutcracker';
     handles.(r_nut.tag) = uicontrol(handles.uipanel_Device,...
@@ -595,11 +596,11 @@ else % Create the figure
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Panel : Joystick online display
     
-    p_joystick.x = r_nut.x+r_nut.w;
-    p_joystick.y = 0.05;
-    p_joystick.w = 1 - p_joystick.x - r_nut.x;
-    p_joystick.h = 0.95;
-    handles.uipanel_Joystick = uipanel(handles.uipanel_Device,...
+    p_joystick.x = p_device.x + p_device.w;
+    p_joystick.y = p_device.y;
+    p_joystick.w = 1 - p_device.w - p_device.x;
+    p_joystick.h = p_device.h;
+    handles.uipanel_Joystick = uipanel(handles.(gui_name),...
         'Title','Joystick',...
         'Units', 'Normalized',...
         'Position',[ p_joystick.x p_joystick.y p_joystick.w p_joystick.h ],...
@@ -630,6 +631,7 @@ else % Create the figure
     handles.axes_Joystick = axes(handles.uipanel_Joystick,...
         'Units'          , 'Normalized'                     ,...
         'Position'       , [a_joystick.x a_joystick.y a_joystick.w a_joystick.h]);
+    GUI.VIEW.setAxesJoystickStream( handles ); % wrapper, because used several times
     
     
     %% Panel : Operation mode
@@ -772,7 +774,7 @@ else % Create the figure
     % guidata(figHandle,handles) . It allows smart retrive like
     % handles=guidata(hObject)
     
-    % Hide EYELINK On
+    % Init with EYELINK Off
     set(handles.uipanel_EyelinkMode,'SelectedObject',handles.radiobutton_EyelinkOff)
     eventdata.NewValue = handles.radiobutton_EyelinkOff;
     GUI.VIEW.SelectionChangeFcn.uipanel_EyelinkMode(handles.uipanel_EyelinkMode, eventdata)

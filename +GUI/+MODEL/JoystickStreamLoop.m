@@ -21,14 +21,8 @@ fprintf('%s - Xraw/Xcal : %6d %0.3f - Yraw/Ycal : %6d %0.3f \n', datestr(now), X
 
 cla(handles.axes_Joystick)
 hold(handles.axes_Joystick,'on')
-handles.axes_Joystick.XLim = [0 3];
-handles.axes_Joystick.YLim = [-0.5 1.5];
 plot(handles.axes_Joystick, 2, Xcal, 'rx')
 plot(handles.axes_Joystick, 1, Ycal, 'kx')
-plot(handles.axes_Joystick, [0 3], [0 0], 'k:') % hline
-plot(handles.axes_Joystick, [0 3], [1 1], 'k:') % hline
-xticks(handles.axes_Joystick,[1 2])
-xticklabels(handles.axes_Joystick,{'L' 'R'})
-yticks(handles.axes_Joystick,[0 1])
+GUI.VIEW.setAxesJoystickStream( handles ); % wrapper, because used several times
 
 end % function
