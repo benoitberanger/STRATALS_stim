@@ -210,7 +210,11 @@ Priority(0);
 
 switch Task
     case 'Calibration'
-        TASK.CALIBRATION.STATS.GetMax( S );
+        [ calib_Left, calib_Right ] = TASK.CALIBRATION.STATS.GetMax( S );
+        S.calib_Left  = calib_Left;
+        S.calib_Right = calib_Right;
+        handles.edit_Calib_Left .String = num2str(calib_Left );
+        handles.edit_Calib_Right.String = num2str(calib_Right);
     case 'Nutcracker'
         TASK.NUTCRACKER.STATS.Stability( S );
 end
