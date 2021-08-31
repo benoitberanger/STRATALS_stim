@@ -22,7 +22,7 @@ fprintf('%s - Xraw/Xcal : %6d %+.3f - Yraw/Ycal : %6d %+.3f \n', datestr(now), X
 cla(handles.axes_Joystick)
 hold(handles.axes_Joystick,'on')
 plot(handles.axes_Joystick, 2, Xcal, 'rx')
-plot(handles.axes_Joystick, 1, Ycal, 'kx')
+plot(handles.axes_Joystick, 1, Ycal, 'bx')
 GUI.VIEW.setAxesJoystickStream( handles ); % wrapper, because used several times
 
 end % function

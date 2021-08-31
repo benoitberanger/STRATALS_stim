@@ -210,7 +210,7 @@ Priority(0);
 
 switch Task
     case 'Calibration'
-        
+        TASK.CALIBRATION.STATS.GetMax( S );
     case 'Nutcracker'
         TASK.NUTCRACKER.STATS.Stability( S );
 end
