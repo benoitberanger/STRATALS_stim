@@ -4,7 +4,7 @@ global S
 try
     %% Tuning of the task
     
-    [ EP, TaskParam ] = TASK.CALIBRATION.Parameters( S.OperationMode );
+    [ EP, ~ ] = TASK.CALIBRATION.Parameters( S.OperationMode );
     
     
     %% Prepare recorders

@@ -17,7 +17,7 @@ Y_max = 28427;
 Xcal = (Xraw - X_min) / (X_max - X_min);
 Ycal = (Yraw - Y_min) / (Y_max - Y_min);
 
-fprintf('%s - Xraw/Xcal : %6d %0.3f - Yraw/Ycal : %6d %0.3f \n', datestr(now), Xraw, Xcal, Yraw, Ycal )
+fprintf('%s - Xraw/Xcal : %6d %+.3f - Yraw/Ycal : %6d %+.3f \n', datestr(now), Xraw, Xcal, Yraw, Ycal )
 
 cla(handles.axes_Joystick)
 hold(handles.axes_Joystick,'on')
