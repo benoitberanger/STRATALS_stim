@@ -98,6 +98,13 @@ switch Device
 end
 
 
+%% Calibration values
+
+[ calib_Left , calib_Right ] = GUI.CONTROLLER.getCalib(handles);
+S.calib_Left  = calib_Left;
+S.calib_Right = calib_Right;
+
+
 %% Quick warning
 
 % Acquisition => save data

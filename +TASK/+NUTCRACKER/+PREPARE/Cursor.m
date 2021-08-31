@@ -10,10 +10,16 @@ CURSOR.pos_X         = S.TaskParam.Cursor.pos_X    * S.PTB.Video.X_total_px;
 CURSOR.pos_Low       = S.TaskParam.Cursor.pos_Low  * S.PTB.Video.Y_total_px;
 CURSOR.pos_High      = S.TaskParam.Cursor.pos_High * S.PTB.Video.Y_total_px;
 CURSOR.device        = S.Device;
+switch S.Task
+    case 'Calibration'
+        % pass
+    case 'Nutcracker'
+        CURSOR.factor_Left   = S.calib_Left;
+        CURSOR.factor_Right  = S.calib_Right;
+end
 
 CURSOR.LinkToWindowPtr(S.PTB.Video.wPtr);
 CURSOR.Update();
 CURSOR.AssertReady();
-
 
 end % function

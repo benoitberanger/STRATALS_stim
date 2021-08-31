@@ -7,15 +7,11 @@ Xraw = double(data.axes(1));
 Yraw = double(data.axes(2));
 
 % Joystick scale correction
-X_min = -30045;
-X_max = 0;
-
-Y_min = -21108;
-Y_max = 28427;
+data = nutcracker_raw_minmax();
 
 % value [0..1] => [X_min..X_max]
-Xcal = (Xraw - X_min) / (X_max - X_min);
-Ycal = (Yraw - Y_min) / (Y_max - Y_min);
+Xcal = (Xraw - data.X_min) / (data.X_max - data.X_min);
+Ycal = (Yraw - data.Y_min) / (data.Y_max - data.Y_min);
 
 fprintf('%s - Xraw/Xcal : %6d %+.3f - Yraw/Ycal : %6d %+.3f \n', datestr(now), Xraw, Xcal, Yraw, Ycal )
 

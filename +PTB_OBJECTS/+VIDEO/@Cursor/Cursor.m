@@ -6,15 +6,15 @@ classdef Cursor < PTB_OBJECTS.VIDEO.Target
     properties
         
         % Parameters
-        
-        value_Left  = 0  % height, ratio from 0 to 1
-        value_Right = 0  % height, ratio from 0 to 1
-        device      = '' % 'Nutcracker' or 'Mouse'
+        device       = '' % 'Nutcracker' or 'Mouse'
+        factor_Left  = 1  % scaling factor
+        factor_Right = 1  % scaling factor
         
         % Internal variables
-        
         X                % from Query*Data
         Y                % from Query*Data
+        value_Left  = 0  % height, ratio from 0 to 1
+        value_Right = 0  % height, ratio from 0 to 1
         
     end % properties
     
