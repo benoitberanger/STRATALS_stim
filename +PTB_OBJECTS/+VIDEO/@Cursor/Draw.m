@@ -1,7 +1,7 @@
 function Draw( self, LR )
 
 % recale : value -> Y_pos in pixel
-pos_Y = self.(['value_' LR]) * (self.pos_High - self.pos_Low) + self.pos_Low;
+pos_Y = self.(['value_' LR]) * (self.pos_High - self.pos_Low) / self.max_modulator + self.pos_Low;
 
 self.rect = CenterRectArrayOnPoint(...
     [0 0 self.dim self.width] ,...

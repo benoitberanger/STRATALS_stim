@@ -16,6 +16,7 @@ switch S.Task
     case 'Nutcracker'
         CURSOR.factor_Left   = S.calib_Left;
         CURSOR.factor_Right  = S.calib_Right;
+        CURSOR.max_modulator = max(S.TaskParam.valueModulator);
 end
 
 CURSOR.LinkToWindowPtr(S.PTB.Video.wPtr);

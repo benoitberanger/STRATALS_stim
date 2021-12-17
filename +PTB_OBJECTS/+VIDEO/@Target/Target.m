@@ -14,6 +14,7 @@ classdef Target < PTB_OBJECTS.VIDEO.Base
         pos_X                      % px
         pos_Low                    % px
         pos_High                   % px
+        max_modulator = 1          % [0..1]
         
         % Internal variables
         

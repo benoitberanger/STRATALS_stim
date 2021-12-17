@@ -58,6 +58,7 @@ try
                     side_num = +1;
             end
         end
+        modulator     = EP.Data{evt,7};
         
         switch evt_name
             
@@ -98,8 +99,7 @@ try
                 if S.MovieMode, PTB_ENGINE.VIDEO.MOVIE.AddFrame(wPtr,moviePtr); end
                 
                 % Flip at the right moment
-                desired_onset =  prev_onset + prev_duration - slack;
-                real_onset = Screen('Flip', wPtr, desired_onset);
+                real_onset = Screen('Flip', wPtr);
                 prev_onset = real_onset;
                 CURSOR.Update();
                 SR.AddSample([ real_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
@@ -134,10 +134,10 @@ try
             case {'Trial_L_Produce', 'Trial_R_Produce'} % -----------------
                 
                 % Logs
-                fprintf('block=%d   trial=%d   side=%5s   ', block, trial, side)
+                fprintf('block=%d   trial=%d   side=%5s   modulator=%d%%   ', block, trial, side, modulator*100)
                 
                 % Draw
-                TARGET.Draw('High','Active');
+                TARGET.Draw('High','Active', modulator);
                 switch side
                     case 'Left'
                         HAND.Draw('Left' ,'Active' );
@@ -170,7 +170,7 @@ try
                     end
                     
                     % Draw
-                    TARGET.Draw('High','Active');
+                    TARGET.Draw('High','Active', modulator);
                     switch side
                         case 'Left'
                             HAND.Draw('Left' ,'Active' );
@@ -187,13 +187,14 @@ try
                     flip_onset = Screen('Flip', wPtr);
                     SR.AddSample([ flip_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                     
-                    if CURSOR.(['value_' side]) >= 1 % cursor reached target
-                        break;
-                    elseif  ~flag_RT_produce && CURSOR.(['value_' side]) >= TaskParam.thresholdRT
+                    
+                    if ~flag_RT_produce && CURSOR.(['value_' side]) >= TaskParam.thresholdRT
                         flag_RT_produce = 1;
                         RT_produce.AddSample([prev_onset-StartTime block trial side_num flip_onset-prev_onset])
                         % Logs
                         fprintf('RT_produce=%4dms   ', round((flip_onset-prev_onset)*1000) )
+                    elseif CURSOR.(['value_' side]) >= modulator % cursor reached target
+                        break;
                     end
                     
                 end % while
@@ -202,7 +203,7 @@ try
             case {'Trial_L_Hold', 'Trial_R_Hold'} % -----------------------
                 
                 % Draw
-                TARGET.Draw('High','Active');
+                TARGET.Draw('High','Active', modulator);
                 switch side
                     case 'Left'
                         HAND.Draw('Left' ,'Active' );
@@ -236,7 +237,7 @@ try
                     end
                     
                     % Draw
-                    TARGET.Draw('High','Active');
+                    TARGET.Draw('High','Active', modulator);
                     switch side
                         case 'Left'
                             HAND.Draw('Left' ,'Active' );
@@ -288,8 +289,8 @@ try
                 ER.AddEvent({evt_name real_onset-StartTime [] EP.Data{evt, 4:end}});
                 
                 % While loop for most of the duration of the event, so we can press ESCAPE
-                next_onset = prev_onset + evt_duration - slack;
                 flag_RT_rest = 0;
+                next_onset = Inf;
                 while secs < next_onset
                     [keyIsDown, secs, keyCode] = KbCheck();
                     if keyIsDown
@@ -314,11 +315,15 @@ try
                     flip_onset = Screen('Flip', wPtr);
                     SR.AddSample([ flip_onset-StartTime CURSOR.X CURSOR.Y CURSOR.value_Left CURSOR.value_Right ]);
                     
-                    if  ~flag_RT_rest && CURSOR.(['value_' side]) <= (1-TaskParam.thresholdRT)
+                    if ~flag_RT_rest && CURSOR.(['value_' side]) <= (modulator*(1-TaskParam.thresholdRT))
                         flag_RT_rest = 1;
                         RT_rest.AddSample([prev_onset-StartTime block trial side_num flip_onset-prev_onset])
                         % Logs
                         fprintf('RT_rest=%4dms   \n', round((flip_onset-prev_onset)*1000) )
+                    elseif abs(CURSOR.(['value_' side])) < 0.05 % cursor reached target
+                        if next_onset == Inf
+                            next_onset = secs + evt_duration - slack;
+                        end
                     end
                     
                 end % while

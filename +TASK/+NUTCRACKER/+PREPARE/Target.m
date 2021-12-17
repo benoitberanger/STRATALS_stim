@@ -9,6 +9,7 @@ TARGET.color_Passive = S.TaskParam.Target.color_Passive;
 TARGET.pos_X         = S.TaskParam.Target.pos_X    * S.PTB.Video.X_total_px;
 TARGET.pos_Low       = S.TaskParam.Target.pos_Low  * S.PTB.Video.Y_total_px;
 TARGET.pos_High      = S.TaskParam.Target.pos_High * S.PTB.Video.Y_total_px;
+TARGET.max_modulator = max(S.TaskParam.valueModulator);
 
 TARGET.LinkToWindowPtr(S.PTB.Video.wPtr);
 TARGET.AssertReady();
